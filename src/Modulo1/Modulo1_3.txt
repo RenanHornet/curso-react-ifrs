@@ -1,0 +1,33 @@
+=== Programação Declarativa com React =-=-=
+
+Os paradigmas de programação são diferentes estilos ou abordagens para escrever e organizar código. Cada paradigma oferece uma maneira distinta de pensar sobre como resolver problemas e estruturar programas. Dois dos principais paradigmas são o imperativo e o declarativo. O React utiliza predominantemente o paradigma de programação declarativa.
+
+=-=-= Programação Imperativa =-=-=
+
+A programação imperativa é um paradigma em que o desenvolvedor especifica como o computador deve realizar uma tarefa. Nesse estilo, você escreve uma série de instruções detalhadas que descrevem passo a passo o que o programa deve fazer para alcançar o resultado desejado. É semelhante a dar instruções precisas, como seguir uma receita de bolo, onde cada etapa deve ser executada em ordem específica. Veja no código abaixo um exemplo:
+
+let total = 0;
+    for (let i = 0; i < 10; i++) {
+        total += i;
+      }
+      console.log(total);
+      
+Neste exemplo, o código descreve explicitamente como somar os números de 0 a 9, acumulando o total em uma variável.
+
+=-=-= Programação Declarativa =-=-=
+
+A programação declarativa, por outro lado, é um paradigma onde o desenvolvedor descreve o que o programa deve fazer, sem especificar como fazê-lo. Em vez de dar uma sequência de passos, você define o resultado desejado, e a implementação subjacente decide a melhor forma de alcançá-lo. Assim, os detalhes de implementação, como o controle de fluxo e a manipulação de estado, são abstraídos e gerenciados pela linguagem ou framework.
+No React, você descreve o que a interface de usuário deve parecer em um determinado estado, e o React se encarrega de garantir que a interface se atualize de acordo quando esse estado muda (SCOTT, 2020). Isso é feito através de componentes, que são funções ou classes que retornam uma descrição da interface (geralmente escrita em JSX, uma extensão de sintaxe para JavaScript que se assemelha a HTML).
+
+Veja no código abaixo um exemplo de programação declarativa com React:
+
+function Greeting({ isLoggedIn }) {
+    return (
+        <div>
+          {isLoggedIn ? <h1>Welcome back!</h1> : <h1>Please sign in.</h1>}
+        </div>
+    );
+}
+
+Neste exemplo, o componente Greeting declara o que deve ser exibido com base na propriedade isLoggedIn. Se isLoggedIn for true, o componente renderiza "Welcome back!", e se for false, ele renderiza "Please sign in.".
+

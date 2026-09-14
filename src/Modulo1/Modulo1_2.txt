@@ -1,0 +1,58 @@
+=== *Componentização em React* ===
+A componentização é um dos conceitos fundamentais em React e refere-se à prática de dividir a interface de usuário em partes menores e reutilizáveis chamadas componentes. Esses componentes podem ser combinados e aninhados para formar interfaces complexas de maneira modular e organizada (ELROM, 2021). Cada componente é responsável por uma parte específica da interface e pode ser desenvolvido, testado e mantido de forma independente. Assim, a componentização facilita a manutenção, a reutilização de código e a escalabilidade das aplicações.
+
+=-=-= *O que é um componente?* =-=-=
+
+Em React, um componente é uma função ou classe JavaScript que aceita propriedades (props) como entrada e retorna uma estrutura de elementos que descreve uma parte da interface de usuário. Esse retorno geralmente é feito usando JSX (uma extensão de sintaxe que se assemelha ao HTML).
+
+Existem dois tipos principais de componentes em React:
+
+*-Componentes Funcionais:* São componentes baseados em funções JavaScript. Eles são simples e ideais para criar componentes que apenas recebem dados e renderizam uma interface com base nesses dados. Veja um exemplo abaixo:
+
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>
+}
+
+*-Componentes de Classe:* Componentes de classe são baseados em classes do JavaScript (introduzidas no ECMAScript 2015). Veja um exemplo abaixo:
+
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}!</h1>
+  }
+}
+
+=-=-= Composição de Componentes =-=-=
+
+Os componentes podem ser combinados para formar interfaces mais complexas. Um componente de nível superior pode incluir outros componentes como seus filhos, compondo uma interface completa a partir de pequenas peças modulares.
+
+Confira, no código abaixo, como um componente maior pode ser composto a partir de componentes menores.
+
+function App() {
+  return (
+    <div>
+      <Header />
+      <MainContent />
+      <Footer />
+    </div>
+  );
+}
+
+No exemplo acima, o componente App é composto por três componentes menores: Header, MainContent, e Footer. Cada um desses componentes pode, por sua vez, ser composto por outros componentes menores.
+
+=-=-= Encapsulamento =-=-=
+
+O encapsulamento em React refere-se à prática de isolar a lógica e o estado de um componente, de modo que ele possa funcionar de forma independente e reutilizável, sem que suas implementações internas interfiram ou sejam afetadas por outros componentes.
+
+Veja um exemplo de encapsulamento em React no código abaixo:
+
+function UserCard(props) {
+  return (
+    <div className="user-card">
+      <img src={props.avatarUrl} alt={`${props.name}'s avatar`} />
+      <h2>{props.name}</h2>
+      <p>{props.bio}</p>
+    </div>
+  );
+}
+
+O componente UserCard encapsula todos os detalhes sobre como um cartão de usuário deve ser renderizado, permitindo que seja usado de forma consistente em qualquer lugar da aplicação sem se preocupar com interferências externas.

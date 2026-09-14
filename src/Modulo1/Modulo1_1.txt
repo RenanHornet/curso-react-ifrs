@@ -1,0 +1,15 @@
+=== Histórico do react === 
+
+React é uma biblioteca JavaScript de código aberto, desenvolvida pelo Facebook, usada para construir interfaces de usuário (W3SCHOOLS, 2024). O React não é um framework, e tampouco se limita ao desenvolvimento para a web. Ele é frequentemente combinado com outras bibliotecas para renderização em diferentes ambientes. Por exemplo, React Native é utilizado para a construção de aplicativos móveis nativos, enquanto React 360 é usado pr criar experiências de realidade virtual. Além disso, há muitas outras possibilidades, expandindo o alcance do React para diversas plataformas e contextos.
+
+O React permite criar componentes reutilizáveis que gerenciam seu próprio estado, facilitando a construção de interfaces dinâmicas e interativas (DULDULAO; CABAGNOT, 2021). O foco principal do React é  criação de uma experiência de usuário eficiente e performática, através do gerenciamento inteligente da atualização da interface. 
+
+Neste contexto, o React foi criado pelo engenheiro de softwae do Facebook, Jordan Walke, em 2021. O desenvolvimento do React começou como uma solução interna para os problemas que o Facebook enfrentava o construir interfaces de usuário altamente dinâmicas e interativas. O desafio er principalmente relaciondo o desempenho e à complexidade da manutenção do código. 
+
+Na época, o Facebook estava lidando com grandes volumes de dados em tempo real, especialmente em componentes como o feed de notícias. A abordagem tradicional para manipular o Document Object Model (DOM) diretamente estava se mostrando ineficiente e difícil gerenciar à medida qe as interfaces se tornavam mais complexas.
+
+Antes de ser conhecido como React, a biblioteca foi incialmente chamada de FaxJS. Jordan Walke desenvolveu essa primeira versão experimental que utilizava o conceito de um DOM virtual para otimizar as atualizações da interface de usuário. Esse conceito de Virtual DOM foi um dos principais difrerenciais que ajudou a melhorar drasticamente a performance das aplicações web.
+
+Em 2013, o Facebook decidiu liberar o React como um projeto de código aberto durante a conferência JSConf US. O lançamento público trouxe grande interesse da comunidade e desenvolvedores devido à abordagem inovadora do React para construir interfaces de usuário.
+
+Após o lançamento, a popularidade do React cresceu rapidamente. A simplicidade e a eficiência do paradgima declarativo, combinadas com a modularidade dos componentes, fizeram com que grndes empresas e desenvolvedores individuais adotassem o React para seus projetos. O Facebook, que continua a manter e desenvolver o React, usa a biblioteca em seus produtos principais, incluindo Facebook, Instagram e WhatsApp. Outras grandes empresas como Netflix, Airbnb e uber também adotaram o React.
