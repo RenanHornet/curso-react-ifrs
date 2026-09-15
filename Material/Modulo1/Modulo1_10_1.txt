@@ -1,0 +1,135 @@
+=== Children: Composição de componentes ===
+
+Em React, a prop especial chamada children permite que você passe conteúdo dinâmico (como JSX ou outros componentes) dentro da marcação de um componente. Isso é essencial para a composição de componentes, já que você pode criar componentes genéricos e flexíveis que envolvem ou renderizam outros componentes dentro de si.
+
+Veja no quadro abaixo um exemplo de uso de children:
+
+function Caixa(props) {
+    return <div className="caixa">{props.children}</div>
+}
+
+
+function App() {
+  return (
+    <div>
+      <Caixa>
+        <h1>Conteúdo 1</h1>
+      </Caixa>
+      <Caixa>
+        <h1>Conteúdo 2</h1>
+      </Caixa>
+    </div>
+  );
+}
+export default App;
+
+
+Neste exemplo:
+
+O componente Caixa envolve outros componentes ou elementos em uma <div>
+O conteúdo passado entre as tags de abertura e fechamento de <Caixa> (por exemplo, <h1>Conteúdo 1</h1>) é acessado pelo componente como props.children.
+O uso de children permite que o componente Caixa seja reutilizado, exibindo conteúdos diferentes em cada instância.
+
+=-=-= Composições avançadas com children =-=-=
+
+Você pode criar componentes muito mais complexos utilizando a prop children, permitindo a composição de layouts e interfaces dinâmicas.
+
+Veja no código abaixo um exemplo com de componente com múltiplos filhos:
+
+function Layout(props) {
+    return (
+        <div>
+          <header>{props.header}</header>
+          <main>{props.children}</main>
+          <footer>{props.footer}</footer>
+        </div>
+      );
+}
+function App() {
+      return (
+        <Layout header={<h1>Cabeçalho</h1>} footer={<p>Rodapé</p>}>
+          <p>Conteúdo principal vai aqui!</p>
+        </Layout>
+      );
+}
+export default App;    
+
+
+Neste exemplo:
+
+O componente Layout organiza a página com um cabeçalho (header), um corpo (children) e um rodapé (footer).
+No componente App, o conteúdo do header, footer e children é passado dinamicamente.
+Isso exemplifica como children e outras props podem ser combinadas para criar componentes que envolvem outros elementos de maneira modular e flexível.
+
+=-=-= Diferenças entre props e children =-=-=
+
+Veja no comparativo abaixo um resumo sobre as diferenças de uso de props e children:
+
+--- O que são? ---
+    - props: Dados ou funções passadas de um componente pai para um componente filho
+    - children: Conteúdo aninhado passado entre as tags de abertura e fechamento de um componente
+
+--- Sintaxe ---
+    - props: Atributos em elementos JSX (<Componente prop={valor} />).
+    - children: Conteúdo dentro do JSX (<Componente>conteúdo</Componente>).
+
+--- Função principal ---
+    - props: Configurar, parametrizar ou passar dados para o componente filho.
+    - children: Permitir a composição de outros componentes ou elementos dentro do componente.
+
+--- Exemplo ---
+    - props: <Botao onClick={funcao} />
+    - children: <Caixa><p>Texto dentro da caixa </p> </Caixa>
+
+
+=-=-= Boas práticas no uso de Props e Children =-=-=
+
+Veja nesta seção algumas sugestões de boas práticas no uso de props e children.
+
+Props Imutáveis: Lembre-se de que as props devem sempre ser tratadas como imutáveis. Modificar uma prop diretamente dentro de um componente é uma má prática e pode causar erros inesperados.
+Desestruturação de Props: Para manter o código limpo e legível, desestruture as props ao recebê-las nos componentes. Isso torna o código mais conciso e claro.
+
+function Saudacao({ nome }) {
+    return <h1>Olá, {nome}!</h1>;
+}
+
+Componentes Reutilizáveis: Use props e children para criar componentes altamente reutilizáveis. Por exemplo, um componente de layout pode ser reutilizado com diferentes conteúdos passados como children.
+
+Verificação de PropTypes: Para melhorar a segurança e previsibilidade do código, você pode definir PropTypes para verificar o tipo das props esperadas, facilitando a depuração:
+import PropTypes from "prop-types";
+
+function Saudacao({ nome }) {
+    return <h1>Olá, {nome}!</h1>;
+}    
+     
+Saudacao.propTypes = {
+    nome: PropTypes.string.isRequired,
+};      
+
+
+Observe que PropTypes é uma biblioteca usada no React para realizar a validação de tipos das props passadas para um componente. Isso permite que os desenvolvedores especifiquem quais tipos de dados seus componentes esperam receber, ajudando a detectar erros durante o desenvolvimento. Embora não impeça a execução do código em tempo de execução, o PropTypes emite avisos no console se uma prop inválida for passada, o que pode prevenir bugs e tornar o código mais robusto.
+
+No exemplo anterior, em Saudacao.propTypes = { nome: PropTypes.string.isRequired, };, estamos definindo os tipos das props que o componente Saudacao espera receber. Assim, a prop nome deve ser do tipo string e é é obrigatória.
+
+Se o componente Saudacao for usado corretamente, passando uma string para a prop nome, como no exemplo abaixo:
+
+function App() {
+    return <Saudacao nome="João" />;
+}
+O React não exibirá nenhum aviso, e o nome será exibido como esperado no navegador.
+
+Porém, se um valor incorreto for passado, como um número:
+
+function App() {
+    return <Saudacao nome={123} />;
+}
+
+O React exibirá um aviso no console do Google DevTools
+
+Ainda, se a prop nome não for passada:
+
+function App() {
+    return <Saudacao/>;
+}
+
+O React exibirá outro aviso no console do Google DevTools

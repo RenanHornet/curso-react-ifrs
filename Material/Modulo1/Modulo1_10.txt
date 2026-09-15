@@ -1,0 +1,91 @@
+=== Funcionamento de Props e Childrem no React ===
+Em React, a passagem de dados entre componentes é uma das funcionalidades mais importantes para criar componentes reutilizáveis e flexíveis, permitindo a composição de interfaces mais complexas. 
+
+=-=-= O que são Props? =-=-=
+
+As props (abreviação de "propriedades") são o mecanismo pelo qual os componentes podem receber dados do componente pai (W3SCHOOLS, 2024). Eles são imutáveis, ou seja, um componente não pode modificar suas próprias props; ele apenas as usa para exibir conteúdo ou para passar esses dados adiante para outros componentes.
+
+=-=-= Como funcionam as props =-=-=
+
+Quando você passa uma prop para um componente, ele a recebe como um argumento na função (para componentes funcionais) ou como um atributo this.props (para componentes de classe). Isso permite que os componentes sejam reutilizáveis e dinâmicos, já que eles podem exibir diferentes dados dependendo das props que recebem.
+
+Veja no código a seguir um exemplo de uso de props em um componente funcional:
+
+function Saudacao(props) {
+    return <h1>Olá, {props.nome}!</h1>;
+}
+function App() {
+  return (
+    <div>
+      <Saudacao nome="Maria" />
+      <Saudacao nome="João" />
+    </div>
+  );
+}
+export default App;
+
+
+Nesse exemplo:
+
+Saudacao é um componente funcional que recebe uma prop chamada nome.
+No componente App, duas instâncias do componente Saudacao são criadas, passando valores diferentes ("Maria" e "João") como props.
+O componente Saudacao usa {props.nome} para exibir o nome correto.
+
+No código abaixo, temos o mesmo exemplo com o componente Saudacao, mas utilizando o conceito de componente de classe:
+
+import { Component } from 'react';
+class Saudacao extends Component {
+    render() {
+      return <h1>Olá, {this.props.nome}!</h1>;
+    }
+}
+class App extends Component {
+    render() {
+      return (
+        <div>
+          <Saudacao nome="Maria" />
+          <Saudacao nome="João" />
+        </div>
+      );
+    }
+}
+export default App;
+      
+
+
+Neste exemplo:
+
+O componente Saudacao agora é uma classe que estende Component e usa o método render( ) para retornar o JSX.
+A props agora é acessada através de this.props.nome, pois this é usado para referenciar as propriedades no contexto das classes.
+O componente App também foi convertido para uma classe com o método render() retornando o JSX, mantendo o comportamento original de renderizar múltiplas saudações.
+
+=-=-= Imutabilidade das props =-=-=
+
+Como as props são imutáveis, você não pode alterá-las diretamente dentro do componente. Se for necessário modificar o estado de um componente, você deve usar o estado local (via useState, por exemplo) ou passar funções através das props para que o componente filho possa disparar mudanças no componente pai.
+
+=-=-= Passagem de funções via props =-=-=
+
+As props não se limitam a dados estáticos. Você também pode passar funções como props, permitindo que o componente filho comunique-se com o componente pai ou execute ações a partir de eventos (como cliques de botão).
+
+Veja no quadro abaixo um exemplo de passagem de funções com props:
+
+function Botao(props) {
+    return <button onClick={props.onClick}>Clique aqui</button>;
+}
+
+
+function App() {
+  function mostrarMensagem() {
+    alert("Botão clicado!");
+  }
+
+
+  return (
+    <div>
+      <Botao onClick={mostrarMensagem} />
+    </div>
+  );
+}
+export default App;
+
+Neste exemplo, o componente Botao recebe uma prop chamada onClick, que é uma função passada pelo componente App. Quando o botão é clicado, o React chama a função mostrarMensagem definida no componente pai.

@@ -1,0 +1,121 @@
+=== Renderização de listas ===
+
+A renderização de listas no React envolve exibir múltiplos elementos com base em uma coleção de dados, geralmente um array. O método mais comum para renderizar listas é usando o método JavaScript .map(), que itera sobre um array e retorna um novo array de elementos JSX.
+
+A sintaxe básica de .map() é a seguinte:
+
+array.map((elemento, index) => {
+      // Retorna um valor (ou JSX no caso de React)
+});  
+
+Onde:
+
+elemento: O valor atual do array durante a iteração.
+index: O índice do elemento no array (opcional, mas muitas vezes útil em React para gerar chaves únicas).
+retorno: O valor transformado que será adicionado ao novo array.
+
+Quando você renderiza uma lista, o React recomenda o uso de chaves (ou keys) para identificar de forma única cada elemento da lista. Isso ajuda o React a identificar quais itens mudaram, foram adicionados ou removidos, e otimiza a atualização do DOM.
+
+Veja no quadro abaixo um exemplo simples de renderização de lista no React:
+
+function ListaNomes() {
+     const nomes = ['Maria', 'João', 'Pedro'];
+     return (
+       <ul>
+         {nomes.map((nome, index) => (
+           <li key={index}>{nome}</li>
+         ))}
+       </ul>
+     );
+}
+   
+
+
+Neste exemplo:
+
+A variável nomes é um array contendo strings.
+O método .map() percorre o array e retorna um elemento
+para cada nome.
+A key é uma prop obrigatória para ajudar o React a identificar de forma eficiente os itens da lista. Nesse exemplo, usamos o index como chave, embora em muitos casos seja melhor usar um identificador único quando disponível. 
+
+Se os itens da lista forem objetos, você pode acessar suas propriedades dentro do método map(), conforme quadro abaixo:
+
+function ListaUsuarios() {
+     const usuarios = [
+       { id: 1, nome: "Maria" },
+       { id: 2, nome: "João" },
+       { id: 3, nome: "Pedro" },
+     ];
+     return (
+       <ul>
+         {usuarios.map((usuario) => (
+           <li key={usuario.id}>{usuario.nome}</li>
+         ))}
+       </ul>
+     );
+}  
+
+Neste exemplo:
+
+Cada item do array usuarios é um objeto com id e nome.
+O .map() percorre o array e retorna um novo array de <li> com o nome do usuário.
+Usamos usuario.id como key, pois é um identificador único.
+O .map() não apenas transforma dados em JSX, mas também pode ser combinado com lógica condicional e outras manipulações de array. Por exemplo, você pode filtrar os itens antes de renderizá-los. Abaixo está um exemplo em que apenas usuários ativos são exibidos:
+
+function ListaUsuarios({ usuarios }) {
+     return (
+       <ul>
+         {usuarios
+           .filter((usuario) => usuario.ativo)
+           .map((usuario) => (
+             <li key={usuario.id}>{usuario.nome}</li>
+           ))}
+       </ul>
+     );
+}
+function App() {
+     const usuarios = [
+       { id: 1, nome: "Maria", ativo: true },
+       { id: 2, nome: "João", ativo: false },
+       { id: 3, nome: "Pedro", ativo: true },
+     ];
+     return <ListaUsuarios usuarios={usuarios} />;
+}   
+
+Neste exemplo:
+
+Primeiro, usamos .filter() para retornar apenas os usuários que estão ativo: true.
+Em seguida, aplicamos .map() para renderizar apenas os usuários filtrados.
+
+=-=-= Combinaçõa de Renderização condicional e listas =-=-=
+
+A renderização condicional de listas permite exibir uma lista apenas se uma condição específica for atendida. Um exemplo clássico é exibir uma lista de itens se ela contiver dados ou exibir uma mensagem quando a lista estiver vazia.
+
+Veja um exemplo no quadro abaixo:
+
+function ListaNomes({ nomes }) {
+     return (
+       <div>
+         {nomes.length > 0 ? (
+           <ul>
+             {nomes.map((nome, index) => (
+               <li key={index}>{nome}</li>
+             ))}
+           </ul>
+         ) : (
+           <p>Nenhum nome disponível</p>
+         )}
+       </div>
+     );
+}
+function App() {
+     const nomes = ["Maria", "João", "Pedro"];
+     return <ListaNomes nomes={nomes} />;
+}
+export default App;
+   
+Neste exemplo:
+
+A condição nomes.length > 0 verifica se a lista de nomes contém algum item.
+Se a condição for verdadeira, o array nomes é mapeado para renderizar uma lista de <li> com os nomes.
+Se a lista estiver vazia (ou seja, nomes.length === 0), uma mensagem "Nenhum nome disponível" é exibida.

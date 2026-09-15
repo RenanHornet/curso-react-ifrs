@@ -1,0 +1,17 @@
+O material desenvolvido para este módulo baseou-se nas seguintes obras:
+
+DEVLIN BASILAN DULDULAO, D. B.; CABAGNOT, R. J. L. Practical Enterprise React: Become an Effective React Developer in Your Team. USA: APRESS, 2021.
+
+ELROM, E. React and Libraries: Your Complete Guide to the React Ecosystem. USA: APRESS, 2021.
+
+MDN WEB DOCS. Getting started with React. Disponível em: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started. Acessado em 21 jun. 2024.
+
+REACT DOCS. API de Referência. Disponível em https://pt-br.react.dev/. Acessado em 15 jun. 2024.
+
+ROLDÁN, C. S. React 17: Design Patterns and Best Practices. UK: Packt Publishing, 2021.
+
+SCOTT, A. D. JavaScript Everywhere. USA: O’Reilly Media, 2020.
+
+UZAYR, S. B.; CLOUD, N.; AMBLER, T. JavaScript Frameworks for Modern Web Development: The Essential Frameworks, Libraries, and Tools to Learn Right Now. USA: APRESS, 2019.
+
+W3SCHOOLS. React Tutorial. Disponível em: https://www.w3schools.com/react. Acessado em 17 jun. 2024.

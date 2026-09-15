@@ -1,0 +1,84 @@
+=== Criando nossa primeira aplicação React ===
+
+Agora, você está pronto para criar sua primeira aplicação React. Neste passo, você usará o npm, o gerenciador de pacotes do Node.js, para executar um script remoto que configurará automaticamente seu projeto. Esse script copiará todos os arquivos necessários para um novo diretório e instalará as dependências necessárias.
+
+=-=-= Criando o projeto React com o Vite =-=-=
+
+Vamos começar criando um novo projeto utilizando o Vite, essa ferramenta de build moderna para desenvolvimento front-end. Para isso, digite o seguinte comando no terminal:
+
+npm create vite@latest
+
+No exemplo acima, vite@latest é o pacote que o npm deve buscar e executar. O @latest assegura que você está usando a versão mais atual do Vite disponível no repositório npm. Quando você executa npm create vite@latest, o npm faz o download e executa o pacote create-vite, que é responsável por configurar um novo projeto Vite. O pacote create-vite contém um script que define como a estrutura do projeto será criada, quais arquivos serão incluídos, e como as dependências serão instaladas.
+
+Durante a execução, o Vite pode solicitar que você escolha um nome para o projeto. Informe o seguinte nome “tutorial-react”
+
+A opção "JavaScript + SWC" refere-se ao uso do compilador SWC (Speedy Web Compiler), desenvolvido em Rust, usado para transpilar e otimizar o código JavaScript e TypeScript. O SWC é uma alternativa moderna ao Babel, conhecida por ser extremamente rápida e eficiente.
+
+Este processo de configuração inicial do projeto leva alguns segundos. Ao terminar, o Vite repassa instruções para que você termine de instalar as dependências do seu projeto. Desta forma, digite o seguinte comando no terminal para entrar no diretório recém criado do nosso projeto, conforme quadro abaixo:
+
+cd tutorial-react
+
+
+Em seguida, instale as dependências necessárias do projeto executando no terminal o seguinte comando:
+
+npm install
+
+
+Até aqui, você criou um projeto React usando o Vite e adicionou todas as dependências ao projeto. Você pode, agora, abrir a aplicação no editor Visual Studio Code. Para isso, dentro do diretório tutorial-react digite o seguinte comando no terminal:
+
+code .
+
+
+Após a execução deste comando, o Visual Studio Code deverá abrir com a pasta raiz do seu projeto sendo acessada.
+
+Quando você cria um projeto React usando o Vite, ele gera uma estrutura de diretórios organizada e otimizada para facilitar o desenvolvimento. Vamos acompanhar na figura abaixo a estrutura típica (ou sua variação) de um projeto React criado com o Vite:
+
+Conforme observado na imagem acima, temos a seguinte estrutura de diretórios e arquivos em nosso projeto:
+
+node_modules/: 
+Este diretório é gerado automaticamente pelo npm e contém todas as dependências instaladas para o projeto. Essas dependências incluem bibliotecas e pacotes que o projeto utiliza, como React, ReactDOM, e o próprio Vite.
+
+public/: 
+A pasta public é usada para armazenar arquivos estáticos que não precisam ser processados pelo Vite. O conteúdo dessa pasta é servido diretamente como está, sem qualquer modificação. Imagens, fontes, etc, são exemplos de arquivos estáticos que você deseja acessar diretamente.
+
+src/: 
+A pasta src contém todo o código-fonte do projeto. Aqui é onde você escreverá seus componentes React, definirá seus estilos e gerenciará a lógica da aplicação. Veja abaixo seu conteúdo típico:
+    assets/: Diretório usado para armazenar recursos como imagens, fontes, etc., que são utilizados pelos componentes da aplicação.
+
+    App.jsx: Este é o componente principal da aplicação. É comum que o App.jsx seja o ponto central onde outros componentes são montados e gerenciados.
+
+    App.css: Arquivo de estilos associado ao componente App.jsx. Ele contém as regras CSS específicas para o App.
+
+    main.jsx: O ponto de entrada da aplicação React. Este arquivo é responsável por renderizar o componente App no DOM. Ele importa o App.jsx e utiliza ReactDOM.render para montá-lo em um elemento HTML com um determinado id (geralmente root).
+
+    index.css: Arquivo de estilos globais. Ele é geralmente importado no main.jsx para aplicar estilos que afetam toda a aplicação.
+
+gitignore: 
+Este arquivo lista os arquivos e diretórios que devem ser ignorados pelo Git, um sistema de controle de versão de código-fonte. Normalmente, inclui a pasta node_modules/, os arquivos de build, e outras configurações locais que não precisam ser rastreadas pelo controle de versão.
+
+eslint.config.js: 
+Este é um arquivo de configuração para o ESLint, uma ferramenta de análise estática (linter) usado para identificar e corrigir problemas no código JavaScript, incluindo código JSX de projetos React.
+
+index.html: 
+Este é o arquivo HTML principal que o Vite utiliza para injetar o JavaScript gerado. Ele contém um com um id, como root, onde o React renderizará sua aplicação.
+
+package-lock.json: 
+esse arquivo é gerado automaticamente pelo npm e registra as versões exatas de todas as dependências do seu projeto. Ele para garantir que todos os desenvolvedores de um projeto tenham exatamente as mesmas versões de dependências instaladas em seus computadores;
+
+package.json: 
+Contém metadados sobre o projeto, como o nome, versão, scripts, dependências de produção e de desenvolvimento.
+README.md: Arquivo Markdown que normalmente contém informações sobre o projeto, como instruções de instalação, uso, e notas importantes. É um lugar ideal para documentar detalhes específicos do projeto.
+
+vite.config.js: Este arquivo contém a configuração do Vite. Por padrão, ele pode estar bastante simples ou até mesmo vazio, mas à medida que o projeto cresce, você pode configurar aspectos como aliás de caminhos, proxies de API, plugins, entre outros.
+
+=-=-= Iniciando o servidor local =-=-=
+
+Neste passo, você inicializará um servidor local e executará o projeto em seu navegador. Digite a seguinte linha de comando no terminal:
+
+npm run dev
+
+Ao executar esse script, você iniciará um servidor local de desenvolvimento, executará o código do projeto, iniciará um observador que detecta alterações no código e abrirá o projeto em um navegador web. Ele irá rodar a aplicação em modo desenvolvimento em http://localhost:5173/. No navegador, você verá o seguinte projeto modelo do React:
+
+Até agora, você iniciou o servidor de desenvolvimento e está executando seu primeiro código React com sucesso.
+
+OBS: Enquanto o script estiver em execução, você terá um servidor local ativo. Para parar o script, digite CTRL+C na guia do terminal onde seu script estiver em execução.

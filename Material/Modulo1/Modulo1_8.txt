@@ -1,0 +1,44 @@
+=== Introdução ao JSX ===
+
+JSX (JavaScript XML) é uma extensão de sintaxe do JavaScript utilizada no React para descrever a interface do usuário de forma simples e intuitiva (REACT DOCS, 2024). Embora se pareça com HTML, o JSX permite que você escreva HTML diretamente dentro de arquivos JavaScript, combinando o poder do JavaScript com a simplicidade da marcação. 
+
+=-=-= Sintaxe Básica =-=-=
+No JSX, o código HTML é escritodentro do JavaScript, mas com algumas diferenças sutis. Cada elemento JSX precisa estar envolto em um único elemento pai, e algumas palavras reservadas do HTML (como class e for) são substituidas por className e htmlFor respectivamente. 
+
+Veja um exemplo básico de JSX no código abaixo:
+
+const elemento = <h1>Olá, mundo!</h1>;
+
+=-=-= Como funciona o JavaScript Embutido? =-=-=
+
+Uma das características do JSX é a possibilidade de embutir expressões JavaScript dentro da marcação HTML. Para isso, basta envolver o código JavaScript com chaves {} dentro do JSX.
+
+Veja um exemplo de JavaScript Embutido no código abaixo:
+
+const nome = "João";
+    const elemento = <h1>Olá, {nome}!</h1>;
+
+Neste exemplo, a variável nome é avaliada e seu valor é inserido no HTML.
+
+Você também pode usar expressões masi complexas dentro das chaves, como funções e operações lógicas, tal como demonstrado no código abaixo:
+
+const saudacao = (hora >= 12) ? 'Boa tarde' : 'Bom dia';
+    const elemento = <h1>{saudacao}, {nome}! </h1>;
+
+=-=-= Como o JSX é interpretado =-=-=
+
+Embora o JSX pareça uma mistura de HTML e JavaScript, ele não é compreendido diretamente pelos navegadores. O React utiliza um transpilador, tal como Babel ou Esbuild, para converter o código escrito em JSX em chamadas de funções JavaScript equivalentes.
+
+Por exemplo, o código JSX demonstrado no quadro abaixo:
+
+const elemento = <h1>Olá, Mundo!</h1>;
+
+
+Será convertido para:
+
+const elemento = React.createElement('h1', null, 'Olá, Mundo!');
+
+
+Esse processo transforma o JSX em código JavaScript padrão, que é então interpretado pelo navegador para gerar os elementos da interface.
+
+Neste contexto, o JSX simplifica o desenvolvimento no React ao permitir que HTML e JavaScript coexistam no mesmo arquivo. A capacidade de embutir expressões JavaScript diretamente na marcação facilita a criação de interfaces dinâmicas, enquanto o React se encarrega de converter o JSX em chamadas JavaScript para manipular o DOM eficientemente.

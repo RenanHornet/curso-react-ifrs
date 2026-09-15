@@ -1,0 +1,68 @@
+=== Introdução aos elementos e componentes do React ===
+
+Em React, os conceitos de elementos e componentes são fundamentais na construção de interfaces de usuário. Vamos analisar cada um destes conceitos no decorrer desta seção. 
+
+=-=-= Elementos React =-=-=
+
+Um elemento React é o nemor blcoo de construção de uma aplicação React. É uma representação simples de um pedaço de UI (Interface do Usuário), como um botão, um título, ou uma caixa de texto. Elementos React são objetos imutáveis que descrevem o que você quer ver na tela. 
+
+Veja um exemplo de elemento React no código abaixo:
+
+const element =  <h1>Hello, World!</h1>;
+
+Neste exemplo, elemet é um elemento React que representa um cabeçalho "h1" como o texto "Hello, World!". Esse elemento pode ser renderixado na tela com ReactDOM.render().
+
+Eles representam um único nó na árvore do DOM virtual. Ainda uma vez criado, um elemento React não pode ser alterado. se você precisar modificar a UI, você cria um novo elemento com as alterações e o React atualiza a UI de forma eficiente. 
+
+OBS: Normalmente, os elementos React não são utilizados diretamente; em vez disso, são gerados e retornados por componentes. 
+
+=-=-= Componentes React =-=-=
+
+Um componente React é uma função ou classe que aceita entradas (chamadas "props") e retorna um ou mais elementos React que descrevem como uma parte da interface deve aparecer (REACT DOCS, 2024; W3SCHOOLS, 2024). Componentes são mais poderosos do que elementos porque permitem reutilização, composição, e encapsulamento de lógica. Eles podem manter o estado e gerenciar o ciclo de vida da interface.
+
+Neste contexto, em React, há duas formas principais de definir componentes: Componentes Funcionais e Componentes de Classe. Cada um tem suas próprias características, vantagens e diferenças. Vamos explorar essas distinções, os cenários de uso e as boas práticas associadas a cada tipo.
+
+=-=-= Componentes Funcionais =-=-=
+
+Os componentes funcionais são definidos como funções JavaScript que retornam elementos React (geralmente representados em JSX). Eles são uma forma mais simples e moderna de criar componentes em React.
+
+Originalmente, componentes funcionais não tinham capacidade de gerenciar seu próprio estado ou ciclo de vida, mas isso mudou com a introdução dos Hooks no React 16.8. Entretanto, falaremos sobre os Hooks mais adiante neste curso.
+
+Veja no código abaixo um exemplo de componente funcional com React:
+
+function Saudacao(props) {
+    return <h1>Olá, {props.name}!</h1>;
+}
+
+
+Neste exemplo, Saudacao é um componente funcional que recebe props e retorna um elemento React (<h1>). Este argumento props é um objeto que contém todas as propriedades passadas para o componente. Essas propriedades são usadas para personalizar o comportamento ou a aparência do componente. A função Saudacao retorna um elemento React, que será renderizado no navegador. A estrutura <h1> ... </h1> é um exemplo de JSX (JavaScript XML), que é uma extensão de sintaxe usada pelo React que permite escrever HTML dentro do código JavaScript.
+
+Para utilizar este componente, seria necessário chamá-lo em outra parte de nossa aplicação. No código abaixo mostra como o componente Saudacao poderia seria usado:
+
+<Saudacao name="João" />
+
+
+Neste exemplo, quando você usa <Saudacao name="João">, você está criando uma instância do componente Saudacao e passando "João" como valor para a propriedade name. Logo, dentro do componente Saudacao, props.name terá o valor "João", e o componente renderizará o elemento <h1>Olá, João!</h1>.
+
+=-=-= Componentes de Classe =-=-=
+
+Os componentes de classe são definidos como classes ES6 que estendem React.Component e incluem um método render() que retorna elementos React. Os componentes de classe podem facilmente manter e gerenciar seu próprio estado interno usando this.state. Ainda, os componentes de classe têm acesso a métodos de ciclo de vida (como componentDidMount, componentDidUpdate, componentWillUnmount) que permitem executar código em momentos específicos do ciclo de vida do componente.
+
+Veja no quadro abaixo um exemplo de componente de classe com React:
+
+import { Component } from 'react';
+class Saudacao extends Component {
+     render() {
+          return <h1>Hello, {this.props.name}!</h1>;
+     }
+}      
+
+
+O React chamará o método render sempre que precisar determinar o que deve ser exibido na tela. Geralmente, você retornará algum JSX a partir desse método, que descreve a UI que este componente deve renderizar. No exemplo acima, <h1>Hello, {this.props.name}!</h1> é um elemento JSX que renderiza um cabeçalho de nível 1 (<h1>) com o texto "Hello" seguido pelo valor de this.props.name.
+
+Observe que, assim como os componentes funcionais, um componente de classe pode receber informações do seu componente pai por meio de props. No entanto, a sintaxe para acessar props em um componente de classe é diferente. Por exemplo, se o componente pai renderizar <Saudacao name="Taylor">, você pode acessar a propriedade name através de this.props.name.
+
+Observação: Sempre inicie os nomes dos componentes em React com uma letra maiúscula. Isso é importante porque o React trata nomes de componentes começando com letras minúsculas como se fossem tags HTML nativas do DOM. Por exemplo, <div> é interpretado pelo React como uma tag HTML div, enquanto <Welcome> é reconhecido como um componente React. Porém, para que o React entenda <Welcome> como um componente, o nome Welcome precisa estar em escopo, ou seja, deve ser definido ou importado no arquivo onde está sendo utilizado.
+
+
+
