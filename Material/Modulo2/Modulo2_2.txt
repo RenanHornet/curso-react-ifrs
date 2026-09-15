@@ -1,0 +1,4 @@
+=== Gerenciamento do ciclo de vida dos componentes React ===
+
+O ciclo de vida dos componentes React refere-se às diferentes etapas pelas quais um componente React passa desde sua criação até sua remoção do DOM. Esses estágios incluem a montagem, atualização e desmontagem do componente (MDN WEB DOCS, 2024). O React oferece métodos de ciclo de vida (para componentes de classe) e o Hook useEffect (para componentes funcionais) que permitem aos desenvolvedores interagir com esses momentos e executar ações específicas, como carregar dados, executar efeitos colaterais e limpar recursos.
+

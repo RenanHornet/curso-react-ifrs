@@ -1,0 +1,160 @@
+=== Gerenciamento de estado em componentes funcionais ===
+
+Em componentes funcionais, o gerenciamento de estado em React é feito usando os Hooks (REACT DOCS, 2024). Os Hooks foram introduzidos no React 16.8 para permitir que componentes funcionais gerenciem estado e ciclo de vida de forma simples e eficaz, sem precisar converter esses componentes em classes.
+
+Veremos nesta seção o Hook useState, muito utilizado para gerenciar o estado de componentes funcionais. O useState é o Hook mais básico e amplamente usado para gerenciamento de estado local em componentes funcionais. Ele permite criar variáveis de estado e atualizá-las conforme necessário, assim como o método this.setState() em componentes de classe.
+
+O Hook useState retorna um array com dois valores:
+
+O valor atual do estado.
+Uma função para atualizar esse valor.
+Veja abaixo sua sintaxe:
+
+const [estado, setEstado] = useState(valorInicial);
+
+Onde:
+estado: O valor do estado atual.
+setEstado: Função para atualizar o valor do estado.
+valorInicial: O valor inicial que o estado terá quando o componente for montado.
+
+Veja no quadro abaixo como criar um simples contador que utiliza o Hook useState para gerenciar o estado local:
+
+import { useState } from 'react';
+function Contador() {
+        // Declaramos uma variável de estado chamada 'contador' com valor inicial 0
+        const [contador, setContador] = useState(0);
+        return (
+          <div>
+            <p>Contador: {contador}</p>
+            <button onClick={() => setContador(contador + 1)}>Incrementar</button>
+          </div>
+        );
+}
+export default Contador;
+      
+Neste exemplo:
+
+Importação do useState: Importamos o Hook useState de React, que permite gerenciar o estado em um componente funcional.
+
+Declaração do Estado: Dentro do componente, const [contador, setContador] = useState(0) define uma variável de estado chamada contador com valor inicial 0, e a função setContador para atualizar esse valor.
+
+Atualizando o Estado: A função setContador é usada para atualizar o valor de contador. Assim, quando o botão é clicado, chamamos setContador(contador + 1), o que atualiza o estado de contador com o novo valor.
+
+Renderização Automática: O React detecta a mudança de estado renderiza o componente para exibir o novo valor do contador, garantindo que a interface reflita as alterações no estado.
+
+=-=-= Atualizando estado com base no valor anterior =-=-=
+
+Quando o novo valor do estado depende do estado anterior, você deve usar a função de atualização do useState. Isso evita erros, especialmente quando múltiplas atualizações de estado ocorrem em sequência. Veja abaixo um contador com função de atualização do useState:
+
+import { useState } from "react";
+function Contador() {
+        const [contador, setContador] = useState(0);
+        return (
+          <div>
+            <p>Contador: {contador}</p>
+            <button onClick={() => setContador((prevContador) => prevContador + 1)}>
+              Incrementar
+            </button>
+          </div>
+        );
+}
+export default Contador;
+      
+Neste exemplo, setContador recebe uma função que usa o valor anterior (prevContador). Isso garante que a atualização seja sempre baseada no estado mais recente, evitando problemas quando várias atualizações ocorrem rapidamente.
+
+=-=-= Estado complexo =-=-=
+
+O useState também pode gerenciar objetos e arrays como estado. No entanto, ao atualizar estados complexos, você deve garantir que apenas as partes necessárias sejam atualizadas, sem sobrescrever as demais propriedades.
+
+--- Estado com objetos ---
+
+Se o estado for um objeto contendo várias propriedades, você precisa garantir que apenas a propriedade alterada seja atualizada, enquanto as demais são mantidas. Para fazer isso, utilizamos o spread operator (...) para mesclar o novo valor com o estado anterior.
+
+Veja no código abaixo um exemplo de código React que define um componente funcional chamado PerfilUsuario e que usa o Hook useState para gerenciar um estado que contém informações de um usuário, como nome, idade e cidade:
+
+import { useState } from 'react';
+
+function PerfilUsuario() {
+        const [usuario, setUsuario] = useState({
+          nome: 'João',
+          idade: 25,
+          cidade: 'São Paulo',
+        });
+      
+      
+        const atualizarCidade = () => {
+          setUsuario((prevUsuario) => ({
+            ...prevUsuario, // Preserva as outras propriedades do estado
+            cidade: 'Rio de Janeiro', // Atualiza apenas a cidade
+          }));
+        };
+      
+      
+        return (
+          <div>
+            <p>Nome: {usuario.nome}</p>
+            <p>Idade: {usuario.idade}</p>
+            <p>Cidade: {usuario.cidade}</p>
+            <button onClick={atualizarCidade}>Mudar Cidade</button>
+          </div>
+        );
+}
+
+export default PerfilUsuario;
+
+Neste exemplo:
+
+O estado inicial é um objeto com as propriedades nome, idade e cidade.
+O Hook useState retorna dois valores:
+usuario: O valor atual do estado (um objeto com nome, idade e cidade).
+setUsuario: A função que é usada para atualizar o estado.
+Para atualizar a cidade, utilizamos o spread operator (...). Isso mantém as propriedades nome e idade inalteradas enquanto atualiza apenas cidade.
+A função setUsuario recebe o estado anterior (prevUsuario) como argumento e retorna um novo objeto que contém todas as propriedades do estado anterior (...prevUsuario), mas com a propriedade cidade alterada para 'Rio de Janeiro'.
+
+--- Estado com arrays ---
+
+Para gerenciar estados que são arrays, você pode adicionar, remover ou modificar itens do array diretamente no estado (UZAYR; CLOUD; AMBLER, 2019). Como o useState não faz a atualização de forma imutável automaticamente, você precisa garantir que o array seja imutável, ou seja, criar um novo array ao invés de modificar o original.
+
+Veja no quadro abaixo um exemplo:
+
+import { useState } from 'react';
+function ListaTarefas() {
+        const [tarefas, setTarefas] = useState(['Estudar', 'Exercitar', 'Ler']);
+        const adicionarTarefa = (novaTarefa) => {
+          setTarefas([...tarefas, novaTarefa]); // Adiciona uma nova tarefa ao array
+        };
+        const removerTarefa = (index) => {
+          setTarefas(tarefas.filter((_, i) => i !== index)); // Remove a tarefa pelo índice
+        };
+        return (
+          <div>
+            <ul>
+              {tarefas.map((tarefa, index) => (
+                <li key={index}>
+                  {tarefa}
+                  <button onClick={() => removerTarefa(index)}>Remover</button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={() => adicionarTarefa('Nova Tarefa')}>Adicionar Tarefa</button>
+          </div>
+        );
+}
+export default ListaTarefas;
+      
+Neste exemplo:
+
+O estado inicial é um array de strings chamado tarefas.
+Para adicionar um item, usamos o spread operator (...) para criar um novo array contendo os itens anteriores e o novo item.
+Veja que usamos setTarefas([...tarefas, novaTarefa]);
+Para remover um item, usamos o método filter() para criar um novo array sem o item a ser removido.
+Veja que usamos setTarefas(tarefas.filter((_, i) => i !== index));
+O método filter() cria um novo array sem o item cujo índice é igual ao valor de index. Isso garante que estamos trabalhando de forma imutável, sem modificar diretamente o array original.
+OBS: O método filter() é uma função de array do JavaScript que cria um novo array contendo apenas os elementos que passam por um teste (função de callback). No exemplo acima, o teste é se o índice do elemento não corresponde ao índice que você deseja remover.
+
+OBS2: A sintaxe do método filter() é a seguinte:
+
+array.filter((elemento, index) => condição);
+
+
+Onde: elemento é o valor do elemento atual no array; index é o índice do elemento atual; e condição é condição que deve ser verdadeira para o elemento ser mantido no novo array. Dessa forma, em filter((_, i) => i !== index), o _ é um placeholder para o valor do elemento, que não está sendo usado no código, já que a remoção é baseada no índice.

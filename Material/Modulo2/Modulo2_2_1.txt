@@ -1,0 +1,187 @@
+=== Ciclo de vida em componentes de classe ===
+
+Nos componentes de classe do React, os métodos de ciclo de vida são chamados automaticamente durante as fases do ciclo de vida do componente. Essas fases podem ser classificadas em três grandes etapas (W3SCHOOLS, 2024):
+
+- Montagem: Quando o componente é criado e inserido no DOM.
+
+- Atualização: Quando o componente é re-renderizado devido à mudança de estado ou props.
+
+- Desmontagem: Quando o componente é removido do DOM.
+
+Considerando estas etapas, no código abaixo está um exemplo simples que utiliza os três principais métodos do ciclo de vida em componentes de classe: componentDidMount, componentDidUpdate, e componentWillUnmount. Esse exemplo simula o comportamento de um contador controlado por um botão, que também exibe mensagens no console quando o componente é montado, atualizado e desmontado.
+
+import { Component } from "react";
+
+class Contador extends Component {
+        constructor(props) {
+          super(props);
+          // Estado inicial com o valor do contador
+          this.state = {
+            contador: 0,
+          };
+        }
+        // Executado uma vez após o componente ser montado no DOM
+        componentDidMount() {
+          console.log("Componente montado! Contador inicial:", this.state.contador);
+        }
+        // Executado sempre que o componente é atualizado (por exemplo, quando o estado muda)
+        componentDidUpdate(prevProps, prevState) {
+          if (prevState.contador !== this.state.contador) {
+            console.log(
+              "Componente atualizado! Novo valor do contador:",
+              this.state.contador
+            );
+          }
+        }
+        // Executado imediatamente antes de o componente ser desmontado do DOM
+        componentWillUnmount() {
+          console.log("Componente será desmontado!");
+        }
+        // Método para incrementar o valor do contador
+        incrementar = () => {
+          this.setState({ contador: this.state.contador + 1 });
+        };
+        render() {
+          return (
+            <div>
+              <h1>Contador: {this.state.contador}</h1>
+              <button onClick={this.incrementar}>Incrementar</button>
+            </div>
+          );
+        }
+}
+export default Contador;
+      
+Neste exemplo:
+
+constructor(props): Inicializa o estado do componente com o contador em 0.
+
+componentDidMount():
+Esse método é chamado apenas uma vez, logo após o componente ser inserido no DOM. É um ótimo lugar para inicializar comportamentos, como fazer chamadas de API.
+
+componentDidUpdate(prevProps, prevState):
+Esse método é chamado toda vez que o componente é atualizado, ou seja, quando as props ou o estado mudam.
+O componentDidUpdate recebe como parâmetros o estado anterior (prevState) e as props anteriores (prevProps).
+Aqui, ele verifica se o valor do contador foi alterado e, se foi, registra uma mensagem no console com o novo valor do contador.
+
+componentWillUnmount():
+Esse método é chamado imediatamente antes do componente ser removido do DOM. É usado principalmente para evitar vazamentos de memória.
+Aqui, ele apenas registra uma mensagem no console quando o componente estiver prestes a ser desmontado.
+
+Método incrementar():
+Este é o método responsável por incrementar o contador. Quando o botão "Incrementar" é clicado, ele chama this.setState() para atualizar o valor do contador no estado, o que aciona uma nova renderização e o método componentDidUpdate().
+
+=-=-= Ciclo de vida em componentes funcionais =-=-=
+
+Em componentes funcionais no React, o gerenciamento do ciclo de vida dos componentes (montagem, atualização e desmontagem) é feito principalmente por meio do Hook useEffect (W3SCHOOLS, 2024). Enquanto nos componentes de classe o React fornece métodos de ciclo de vida como componentDidMount, componentDidUpdate, e componentWillUnmount, nos componentes funcionais, o useEffect lida com esses mesmos ciclos, proporcionando uma forma mais flexível e simples de gerenciar efeitos colaterais.
+
+OBS: No contexto do React, um efeito colateral refere-se a qualquer operação que afete algo fora do escopo de uma função ou componente puro. Isso inclui ações como:
+
+- Fazer requisições de dados (API calls)
+- Manipular diretamente o DOM (fora do React)
+- Configurar timers ou intervalos (setInterval, setTimeout)
+- Assinar ou cancelar eventos globais (como eventos de redimensionamento da janela)
+- Acessar ou alterar o estado ou o ambiente do navegador (localStorage, cookies, etc.)
+Veja abaixo a sintaxe básica do useEffect:
+
+useEffect(() => {
+    // Efeito colateral (como buscar dados, manipular o DOM, etc.)
+
+
+    return () => {
+      // Função de limpeza (para desmontagem ou reset)
+    };
+}, [dependencias]);
+  
+Onde:
+
+Primeiro argumento: Uma função que define o efeito colateral a ser executado (pode ser buscar dados de uma API, manipular o DOM, etc.).
+Segundo argumento: Um array de dependências que controla quando o efeito será executado. O React compara os valores das dependências com a renderização anterior para decidir se o efeito deve ser executado novamente.
+
+Veremos nesta seção como o useEffect pode ser usado nas fases de Montagem, Atualização e Desmontagem de um componente funcional.
+
+Para executar um efeito apenas uma vez, na montagem do componente (como no componentDidMount), passamos um array de dependências vazio ([ ]) no useEffect. Isso garante que o efeito será executado somente na primeira renderização.
+
+Veja um exemplo no código abaixo:
+
+import { useEffect } from "react";
+function ExemploMontagem() {
+        useEffect(() => {
+          console.log("O componente foi montado!");
+          // Aqui você poderia fazer uma chamada de API ou configurar algo
+        }, []); // O array vazio garante que o efeito seja executado apenas uma vez
+        return (
+          <div>
+            <h1>Exemplo de Montagem</h1>
+          </div>
+        );
+}
+export default ExemploMontagem;
+
+Onde:
+
+useEffect(() => { ... }, [ ]): A função useEffect é executada uma vez, quando o componente é montado. O array vazio indica que o efeito não depende de nenhuma variável e não será executado novamente.
+Neste exemplo, ele registra uma mensagem no console quando o componente é montado.
+
+OBS: Caso você observe no seu console que a mensagem “O componente foi montado!" aparece duas vezes, isso pode estar sendo influenciado pelo comportamento do <react.strictmode>. Esta é uma ferramenta do React projetada para ajudar os desenvolvedores a identificar problemas potenciais no código e garantir que as melhores práticas recomendadas pelo React estejam sendo seguidas. Ele faz isso ao executar verificações adicionais durante o desenvolvimento, o que pode incluir renderizações extras dos componentes. Uma dessas verificações é a renderização dupla (ou renderização duas vezes) dos componentes em modo de desenvolvimento. Essa renderização extra ajuda a detectar efeitos colaterais inesperados ou incorretos que possam ocorrer durante a montagem e atualização dos componentes. Cabe ressaltar que isso não afeta o comportamento da aplicação no ambiente de produção.
+
+Neste próximo exemplo, o useEffect será executado sempre que o valor de contador mudar, na fase de atualização do componente, o que é semelhante ao componentDidUpdate em componentes de classe.
+
+import { useState, useEffect } from "react";
+
+function ExemploAtualizacao() {
+        const [contador, setContador] = useState(0);
+        useEffect(() => {
+          console.log("O contador foi atualizado! Valor atual:", contador);
+        }, [contador]); // O efeito é executado toda vez que o contador muda
+        return (
+          <div>
+            <h1>Contador: {contador}</h1>
+            <button onClick={() => setContador(contador + 1)}>Incrementar</button>
+          </div>
+        );
+}
+export default ExemploAtualizacao;
+
+Neste exemplo:
+
+useEffect(() => { ... }, [contador]): O efeito é executado toda vez que o valor de contador muda. O console.log registra a atualização do contador.
+O componente renderiza um contador com um botão para incrementá-lo.
+
+Neste próximo exemplo, usamos o useEffect para configurar um temporizador (intervalo) quando o componente é montado e limpar esse intervalo quando o componente é desmontado. Isso é semelhante ao componentWillUnmount.
+
+import { useState, useEffect } from "react";
+
+function Temporizador() {
+        const [segundos, setSegundos] = useState(0);
+      
+      
+        useEffect(() => {
+          const intervalo = setInterval(() => {
+            setSegundos((s) => s + 1);
+          }, 1000);
+      
+      
+          // Função de limpeza para desmontar o intervalo
+          return () => {
+            console.log("Componente desmontado! Limpando intervalo.");
+            clearInterval(intervalo);
+          };
+        }, []); // O intervalo é configurado apenas na montagem
+      
+      
+        return (
+          <div>
+            <h1>Segundos: {segundos}</h1>
+          </div>
+        );
+}
+export default Temporizador;
+      
+
+
+Neste exemplo:
+
+useEffect(() => { ... return () => { ... } }, [ ]): O useEffect configura um intervalo que incrementa o contador de segundos a cada segundo. A função de limpeza (clearInterval) é chamada quando o componente é desmontado.
+O temporizador é configurado na montagem e desmontado quando o componente deixa de existir.
+

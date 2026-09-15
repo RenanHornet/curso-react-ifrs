@@ -1,0 +1,160 @@
+=== Gerenciamento de estados em componentes React ===
+
+O gerenciamento de estado é um conceito essencial em React, pois permite que componentes armazenem informações dinâmicas e retenham dados que mudam com o tempo (DULDULAO; CABAGNOT, 2021). Existem duas abordagens principais par gerenciar o estado em React: em componentes de classe e em componentes funcionais.
+
+=-=-= Gerenciamento de estado em componentes de classe =-=-=
+
+Nos componentes de classe em React, o estado é uma estrutura que armazena informações dinâmicas e controladas pelo componente, permitindo que ele responda a eventos, com cliques de botões ou dados que mudam ao longo do tempo (ELROM,2021). O estado é definido no construtor da classe usando this.state e ele deve ser um objeto que contem tofdas as propriedades de estado que o componente precisa. Assim o estado é mantido internamente no componente e pode ser alterado com o método this.setState(), o que dispara uma nova renderização do componente para refletir as mudanças. Neste contexto, observamos que o estado do componente não é uma simples variável, ele gerenciado pelo React que determin a necessidade de cada componente se renderizado novamente.
+
+=-=-= Atualizando o estado com um objeto =-=-=
+
+A maneira mais comum de usar o método setState() é passando um objeto com as propriedades do estado que você deseja atualizar (SCOTT, 2020). O React irá mesclar automaticamente essas propriedades com o estado atual. Veja abaixo sua sintaxe:
+
+this.setState({
+    chave: novoValor
+});
+
+Veja um exemplo de atualização de estado usando setState():
+this.setState({
+  contador: this.state.contador + 1
+});
+
+Neste exemplo, o valor do estado contador é incrementado em 1, e o React renderiza o componente para refletir a mudança no navegador.
+
+Vejamos um exemplo mais completo. No quadro abaixo, definimos um componente de classe em React chamado Contador, que gerencia um estado interno e o atualiza de forma dinâmica quando o usuário interage com a interface.
+
+import { Component } from "react";
+class Contador extends Component {
+        constructor(props) {
+          super(props);    
+          this.state = {   // Definindo o estado inicial no construtor
+            contador: 0,
+          };
+        }
+        render() {
+          return (
+            <div>
+              <p>Contador: {this.state.contador}</p>
+              <button onClick={() => this.incrementar()}>Incrementar</button>
+            </div>
+          );
+        }
+        // Método para atualizar o estado
+        incrementar = () => {
+          // Atualiza o estado com setState
+          this.setState({ contador: this.state.contador + 1 });
+        }
+}
+export default Contador;
+
+Veja como funciona a definição e atualização do estado em componentes de classe:
+
+- Definição do estado: O estado inicial é definido dentro do construtor da classe com this.state = { contador: 0 }.
+
+- Acesso ao estado: O estado é acessado dentro do componente via this.state.nomeDoEstado. No exemplo, usamos this.state.contador para exibir o valor do contador.
+
+- Atualização do estado: Para alterar o estado, usamos o método this.setState(). Isso é crucial, pois o React precisa ser notificado sobre mudanças no estado para que possa renderizar o componente e atualizar a interface do usuário. No exemplo, a função incrementar() chama this.setState({ contador: this.state.contador + 1 }) para incrementar o valor do contador.
+
+=-=-= Atualizando o estado com uma função =-=-=
+
+Em alguns casos, o estado pode depender do valor anterior (como ao incrementar contadores ou manipular dados dinâmicos). Como o setState é assíncrono, há um risco de que múltiplas atualizações possam ser aplicadas incorretamente se você tentar usar diretamente o valor de this.state. Para evitar isso, você pode usar uma função de atualização no setState que recebe o estado anterior como argumento. Veja abaixo sua sintaxe:
+
+this.setState((prevState, props) => {
+    return {
+        chave: novoValor
+      };
+});
+    
+Onde:
+
+prevState: Representa o estado anterior do componente.
+
+props: Representa as props do componente no momento da atualização (geralmente opcional).
+
+Em nosso exemplo com o componente Contador, podemos atualizar o método incrementar() da seguinte forma:
+
+ // Método para atualizar o estado
+    incrementar = () => {
+        // Atualiza o estado com setState
+        this.setState((prevState) => ({
+          contador: prevState.contador + 1
+        }));
+      }
+
+Neste exemplo:
+
+A função recebe prevState como argumento, garantindo que a atualização seja baseada no valor mais recente do estado.
+Isso é útil para evitar problemas quando várias atualizações de estado ocorrem ao mesmo tempo.
+
+=-=-= Método setState é assíncrono =-=-=
+
+É importante entender que o setState é assíncrono, ou seja, o React pode agrupar várias atualizações de estado para otimizar o desempenho (ROLDÁN, 2021). Isso significa que acessar this.state logo após chamar setState pode não refletir o estado atualizado.
+
+Por exemplo, este código pode não funcionar conforme o esperado:
+
+this.setState({ contador: this.state.contador + 1 });
+console.log(this.state.contador); // Pode exibir o valor antigo
+
+
+Para garantir que você esteja usando o valor atualizado do estado, use a forma de função mencionada anteriormente ou use a opção de callback do método setState (que veremos a seguir).
+
+=-=-= Função de callback no setState =-=-=
+
+Se você quiser executar código imediatamente após a atualização do estado ser aplicada e o componente ser renderizado, pode passar uma função de callback como segundo argumento do setState.
+
+Veja abaixo sua sintaxe:
+
+this.setState({chave: novoValor},() => { 
+    // Código executado após o estado ser atualizado 
+   }
+);
+
+Em nosso exemplo com o componente Contador, podemos atualizar o método incrementar() da seguinte forma:
+
+// Método para atualizar o estado
+incrementar = () => {
+        // Atualiza o estado com setState
+        this.setState({ contador: this.state.contador + 1 }, () => {
+          console.log("Estado atualizado:", this.state.contador);
+        });
+}
+
+=-=-= Mesclagem do Estado com setState =-=-=
+
+Ao contrário de substituir o estado inteiro, o setState mescla as propriedades do estado fornecidas com o estado existente. Isso significa que você pode atualizar uma ou algumas propriedades do estado sem perder o restante.
+
+Veja no quadro abaixo um exemplo de estado com múltiplas propriedades. Neste exemplo, criamos o componente Perfil contendo três propriedades: nome, idade e cidade.
+
+import { Component } from "react";
+class Perfil extends Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            nome: "Maria",
+            idade: 25,
+            cidade: "São Paulo",
+          };
+        }
+        atualizarIdade = () => {
+          // Atualiza apenas a idade, mantendo as outras propriedades do estado
+          this.setState({
+            idade: 26,
+          });
+        };
+        render() {
+          return (
+            <div>
+              <p>Nome: {this.state.nome}</p>
+              <p>Idade: {this.state.idade}</p>
+              <p>Cidade: {this.state.cidade}</p>
+              <button onClick={this.atualizarIdade}>Atualizar Idade</button>
+            </div>
+          );
+        }
+}
+export default Perfil;    
+
+Neste exemplo:
+
+O estado inicial tem três propriedades: nome, idade e cidade.
+Ao chamar this.setState({ idade: 26 }), apenas a propriedade idade é atualizada. As outras propriedades (nome e cidade) permanecem inalteradas.
