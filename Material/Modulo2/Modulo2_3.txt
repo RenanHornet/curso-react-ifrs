@@ -1,0 +1,107 @@
+=== Gerenciamento de eventos no React
+
+O gerenciamento de eventos em React é semelhante ao gerenciamento de eventos DOM tradicional, mas com algumas diferenças importantes para tornar o processo mais eficiente e consistente (W3SCHOOLS, 2024). No React, os eventos são manipulados por meio de funções chamadas event handlers que são associadas ao elemento no JSX. O React normaliza esses eventos para garantir que eles funcionem de maneira idêntica em todos os navegadores, oferencendo uma abordagem mais simples e organizada. 
+
+=-=-= Adicionando event handlers =-=-=
+
+Em vez de usar addEventListener como no JavaScript puro, no React, os eventos são adicionados diretamente aos elementos como propriedades JSX. A sintaxe é muito parecida com os atributos HTML, mas os nomes dos eventos no React seguem o padrão camelCase (por exemplo onClick em vez de onclick).
+
+Veja no código a seguir um exemplo simples com o evento onClick:
+
+function Botao() {
+    const handleClick = () => {
+        alert('Botão clicado!');
+      };
+      return (
+        <button onClick={handleClick}>Clique aqui</button>
+      );
+}
+export default Botao;
+
+neste exemplo, onClick = {handleClick} associa a função handleClick ao evento de clique do botão. QUando o botão é clicado, a função é executada e a mensagem 'Botão clicado!' é exibida. 
+
+=-=-= Passando Argumentos para event handlers =-=-=
+
+Às vezes, é necessário passar parâmetros para os event handlers. Para isso, usamos funções ou a função bind para garantir que os parâmetros sejam passados corretamente. 
+
+Veja no código abaixo um exemplo passando argumentos para o event handler:
+
+function ListaDeTarefas() {
+    const handleRemover = (id) => {
+        alert(`Remover tarefa com id: ${id}`);
+      };
+      return (
+        <ul>
+          <li>
+            Tarefa 1 <button onClick={() => handleRemover(1)}>Remover</button>
+          </li>
+          <li>
+            Tarefa 2 <button onClick={() => handleRemover(2)}>Remover</button>
+          </li>
+        </ul>
+      );
+}
+export default ListaDeTarefas;
+
+
+Neste exemplo, em onClick={() => handleRemover(1)} usamos uma função anônima para passar o parâmetro 1 para a função handleRemover. Isso garante que a função seja chamada apenas quando o botão for clicado.
+
+=-=-= Eventos mais comuns no React =-=-=
+
+O React suporta uma ampla gama de eventos, incluindo os eventos de formulário, teclado, mouse e outros eventos de interação com o usuário. Veja alguns exemplos abaixo:
+
+--- Mouse ---
+
+- Exemplo de de evento: onClick, onMouseOver, onDoubleClick, onMouseEnter, onMouseLeave
+- Descrição: Eventos relacionados a cliques e movimentação do mouse.
+
+--- Teclado ---
+
+- Exemplo de evento: onKeyDown, onKeyUp, onKeyPress.
+- Descrição: Captura eventos de pressionamento de teclas.
+
+-- Formulário ---
+
+- Exemplo de evento: onChange, onSubmit, onFocus, onBlur
+- Descrição: Eventos para controle de formulários (campos de texto, seleção, etc.).
+
+--- Foco ---
+
+- Exemplo de evento: onFocus, onBlur
+- Descrição: Eventos de foco em elementos interativos, como inputs.
+
+=-=-= Prevenindo o comportamento padrão =-=-=
+
+Assim como no JavaScript tradicional, alguns eventos podem ter comportamentos padrão que você deseja evitar, como o envio de formulários ao clicar em um botão de submit. Para evitar isso, usamos o método preventDefault().
+
+Veja no código abaixo um exemplo para prevenir o envio de um formulário:
+
+import { useState } from "react";
+
+function FormularioComEnvio() {
+        const [nome, setNome] = useState("");
+      
+      
+        const handleSubmit = (e) => {
+          e.preventDefault(); // Previne o comportamento padrão do formulário
+          alert(`Formulário enviado com o nome: ${nome}`);
+        };
+      
+      
+        return (
+          <form onSubmit={handleSubmit}>
+            <label>
+              Nome:
+              <input
+                type="text"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
+            </label>
+            <button type="submit">Enviar</button>
+          </form>
+        );
+}
+export default FormularioComEnvio;
+
+Neste exemplo, e.preventDefault() previne o comportamento padrão do envio do formulário, evitando que a página seja recarregada, mas mostrando a mensagem de alert().

@@ -1,0 +1,115 @@
+=== Comunicando componentes ===
+
+A comunicação entre componentes no React é uma parte fundamental para criar apliocações interativas (REACT DOCS, 2024). 
+Como o React segue uma estrutura de componentes em árvore, a comunicação entre lees é feita principalemnte por meio de props e, em caso mais complexos, por estado global. Essa comunicação permite o compartilhamento de estado e funções entre componentes, seja de pai para filho, filho para pai, ou mesmo entre componentes irmãos. 
+
+=-=-= Comunicando de Pai para Filho (via props) =-=-=
+
+A comunicação de um componente pai para um componente filho é feita de maneira simples passando props (propriedades). Isso permite ao componente filho acessar os dados e funções fornecidas pelo pai. 
+
+Veja no código abaixo um exemplo de comunicação pai pra filho:
+
+// Componente filho
+function Saudacao({ nome }) {
+        return <h1>Olá, {nome}!</h1>;
+}
+
+// Componente pai
+function App() {
+        const nome = 'Maria';
+        return (
+          <div>
+            <Saudacao nome={nome} />
+          </div>
+        );
+ }
+export default App;
+
+Neste exemplo:
+
+- O componente APP é o pai, e ele passa o estado nome como uma prop para o componente filho Saudacao. 
+- No componente Saudacao, a prop nome é usada para exibir a saudação. 
+
+Essa é a maneira mais comum e direta de compartilhar dados de um componente pai para um filho no React. 
+
+=-=-= Comunicando de Filho para Pai (via props e callbacks) =-=-=
+
+Para comunicar de um componente filho para um componente pai, normalmente usamos funções callback. O componente pai define uma função e a passa para o filho via props. O filho pode chamar essa função para enviar dados de volta ao pai. 
+
+Veja no código abaixo um exemplo de comunicação de Filho para Pai:
+
+import { useState } from "react";
+// Componente filho
+function EntradaNome({ onNomeChange }) {
+      const handleChange = (e) => {
+        onNomeChange(e.target.value); // Envia o valor digitado de volta ao componente pai
+      };
+      return (
+        <input type="text" placeholder="Digite seu nome" onChange={handleChange} />
+      );
+}
+// Componente pai
+function App() {
+      const [nome, setNome] = useState("");
+      return (
+        <div>
+          <EntradaNome onNomeChange={setNome} />
+          <p>Nome digitado: {nome}</p>
+        </div>
+      );
+}
+export default App;
+
+Neste exemplo:
+
+- O componente App define o estado nome e passa a função setNome como prop (onNomeChange) para o componente filho EntradaNome.
+- Quando o usuário digita algo no campo de entrada, o componente filho chama a função onNomeChange com o valor digitado, permitindo que o componente pai atualize seu estado com o novo valor.
+
+Esse padrão de comunicação de filho para pai é muito útil quando o componente pai precisa responder a eventos gerados pelo filho.
+
+=-=-= Comunicando entre componentes Irmãos (via pai) =-=-=
+
+No React, os componentes irmãos não podem se comunicar diretamente. Para compartilhar dados entre componentes irmãos, normalmente o componente pai gerencia o estado compartilhado e passa as informações necessárias para os filhos via props. Veja no código abaixo um exemplo de comunicação entre Irmãos:
+
+import { useState } from "react";
+// Componente irmão 1 - Entrada
+function Entrada({ onTextChange }) {
+      return (
+        <div>
+          <input
+            type="text"
+            placeholder="Digite algo"
+            onChange={(e) => onTextChange(e.target.value)}
+          />
+        </div>
+      );
+}
+// Componente irmão 2 - Exibir
+function Exibir({ texto }) {
+      return (
+        <div>
+          <h2>Você digitou: {texto}</h2>
+        </div>
+      );
+}
+// Componente Pai - App
+function App() {
+      const [texto, setTexto] = useState(""); // Estado compartilhado
+      return (
+        <div>
+          <h1>Comunicação entre Componentes Irmãos</h1>
+          {/* Componente irmão 1 - Envia função para atualizar o texto */}
+          <Entrada onTextChange={setTexto} />
+          {/* Componente irmão 2 - Exibe o texto */}
+          <Exibir texto={texto} />
+        </div>
+      );
+}
+export default App;
+
+Neste exemplo:
+
+- O componente pai App gerencia o estado texto e passa a função setTexto para o componente filho Entrada e o valor de texto para o componente filho Exibir.
+- Quando o usuário digita no campo de entrada, o componente Entrada envia o valor para o pai, que atualiza o estado e repassa o valor para o componente Exibir.
+
+Essa abordagem é comum quando dois ou mais componentes irmãos precisam compartilhar dados ou responder a ações uns dos outros.
