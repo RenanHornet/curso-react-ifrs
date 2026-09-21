@@ -1,0 +1,84 @@
+=== CSS Modules ===
+CSS Modules são uma forma de escrever estilos CSS em que os nomes de classes e identificadores são escopados localmente ao componente onde são usados, evitando conflitos de nomes globais (W3SCHOOLS, 2024). Essa abordagem é muito útil em projetos React, pois permite aplicar estilos de maneira modular, tornando o código mais fácil de manter e escalável, especialmente em aplicações grandes com muitos componentes.
+
+Com CSS Modules, os arquivos CSS são tratados como módulos, e cada classe ou identificador é mapeado para um nome único, geralmente composto pelo nome da classe e um hash gerado automaticamente. Isso garante que os estilos sejam aplicados apenas ao componente certo, sem poluir o escopo global de estilos.
+
+=-=-= Como funcionam CSS Modules? =-=-=
+
+CSS Modules funcionam da seguinte maneira:
+
+- Escopo Local: Os estilos definidos no arquivo CSS são automaticamente convertidos em classes únicas, que são aplicadas somente ao componente em que são importados. Isso resolve o problema de colisão de nomes, comum em projetos grandes.
+
+- Nomes de Classe Únicos: As classes CSS são renomeadas automaticamente para incluir um hash exclusivo, o que garante que diferentes componentes possam ter classes com o mesmo nome sem interferir uns nos outros.
+
+- Importação como Objeto: No React, quando você usa CSS Modules, importa o arquivo CSS como um objeto JavaScript, onde cada classe CSS se torna uma chave do objeto. Isso permite que você aplique classes de forma programática.
+
+=-=-= Como usar CSS Modules no React? =-=-=
+
+Para usar CSS Modules no React, o arquivo CSS deve ser nomeado com a extensão .module.css. Isso informa ao React que os estilos nesse arquivo devem ser tratados como módulos, ou seja, com escopo local.
+
+Para exemplificar melhor o uso de CSS Modules em React, considere a criação de um arquivo chamado App.module.css com os seguintes estilos:
+
+.container {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+}
+.title {
+    color: darkblue;
+    font-size: 24px;
+    text-align: center;
+}
+
+Em seguida, no componente App.jsx, você importa o arquivo CSS como um objeto e aplica as classes usando className.
+
+import styles from "./App.module.css"; // Importa o CSS como um objeto
+function App() {
+        return (
+          <div className={styles.container}>
+            <h1 className={styles.title}>Olá, este é um exemplo de CSS Modules</h1>
+          </div>
+        );
+}
+export default App;
+      
+Observe neste exemplo:
+
+- Importação do CSS Module: No React, você importa o arquivo CSS (App.module.css) como um objeto chamado styles. Cada classe definida no arquivo CSS se torna uma chave no objeto styles.
+
+- Aplicação de Classes: Para aplicar a classe container e title no JSX, você usa className={styles.container} e className={styles.title}. O React garante que esses estilos sejam aplicados localmente ao componente.
+
+- Escopo Local: Mesmo que outro componente no projeto tenha uma classe chamada container, os estilos não entrarão em conflito, pois as classes geradas pelo CSS Modules serão únicas.
+
+=-=-= Como funciona a geração de nomes? =-=-=
+Quando você define uma classe no arquivo CSS, como container, o React e o "module bundler" ou "empacotador de módulos" (tal como o Rollup ou o Webpack) transformam essa classe em uma versão única, adicionando um hash ao nome da classe. Por exemplo, a classe .container no arquivo App.module.css pode ser transformada em algo como:
+
+.container_App_module__23KjF {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+}
+  
+Essa transformação garante que os estilos aplicados sejam exclusivos ao componente, evitando qualquer possível conflito de estilos.
+
+=-=-= Benefícios dos CSS Modules =-=-=
+Veja abaixo alguns dos benefícios do uso de CSS Modules:
+
+- Evita Conflitos de Nomes: Ao escopar localmente os estilos, CSS Modules evita conflitos de classes que são comuns em grandes projetos com muitos componentes.
+
+- Manutenção Facilmente Escalável: Como cada componente tem seus próprios estilos, é mais fácil localizar e alterar o estilo de um componente específico sem quebrar outros.
+
+- Modularidade e Reutilização: Você pode criar módulos de estilo que são facilmente reutilizáveis e combináveis em diferentes componentes.
+
+- Integração Simples: CSS Modules mantém a sintaxe CSS padrão, o que facilita a adoção por times que já conhecem bem CSS. 
+
+=-=-= Limitações dos CSS Modules =-=-=
+Veja abaixo alguns das limitações do uso de CSS Modules:
+
+- Overhead de Build: A construção e a geração dos hash para as classes é um processo adicional que precisa ser configurado e gerenciado pelo Rollup, Webpack ou outra ferramenta de build.
+
+- Estilos Globais: Em alguns casos, você ainda pode precisar de estilos globais (como resets de CSS ou temas), o que pode resultar em uma combinação de CSS Modules e folhas de estilo globais, exigindo um bom gerenciamento.
+
+- Integração com Bibliotecas Externas: Quando você utiliza bibliotecas de terceiros que já possuem seus próprios estilos globais, como Bootstrap ou Material UI, pode ser um desafio garantir a consistência do escopo.
+
+

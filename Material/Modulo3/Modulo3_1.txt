@@ -1,0 +1,200 @@
+=== CSS tradicional e estilos inline ===
+
+No React, a estilização de componentes pode ser feita de várias maneiras, dependendo das preferências e requisitos do projeto. A seguir, temos algumas das principais abordagens de estilização em componentes React. 
+
+=-=-= CSS tradicional (folhas e estilo) =-=-=
+
+No React, o CSS tradicional funciona de maneira semelhante ao que é usado em aplicações web padrão, onde os estilos são definidos em arquivos com extensão .css e aplicados via classes ou IDs HTML (W3SCHOOLS, 2024). A única diferença importante é que, no React, os arquivos de estilo são importados diretamente nos componentes, uma vez que o JSX, que mistura HTML e JavaScrip, exige esse tipo de integração. 
+
+=-=-= Exemplo básico de uso =-=-=
+
+Abaixo está um exemplo básico de como usar arquivos css tradicionais em um arquivo App.css, por exemplo:
+
+.container {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.text {
+    color: white;
+    font-size: 20px;
+}
+
+
+O código CSS acima define estilos para duas classes. A classe .container aplica um fundo azul claro, espaçamento interno de 20 pixels e bordas arredondadas de 10 pixels aos elementos que a utilizam. Já a classe .text define a cor do texto como branca e o tamanho da fonte como 20 pixels, estilizando os elementos que possuem essa classe.
+
+Em seguida, em um componente React, vamos importar o arquivo CSS e aplicar as classes aos elementos HTML usando o atributo className (note que o JSX usa className em vez de class para evitar conflito com a palavra-chave class do JavaScript).
+
+Desta forma, considere alterar o arquivo App.jsx com o seguinte código a seguir:
+
+// App.jsx
+import "./App.css"; // Importa o arquivo CSS
+function App() {
+      return (
+        <div className="container">
+          <p className="text">Este é um texto estilizado com CSS tradicional.</p>
+        </div>
+      );
+}
+export default App;
+
+Neste exemplo:
+
+O arquivo App.css define duas classes, container e text, que são aplicadas no componente React.
+O className="container" e className="text" no JSX referenciam as classes CSS, e o arquivo CSS está sendo importado no topo do arquivo JavaScript.
+O React usa essas classes para aplicar os estilos da mesma forma que em uma página HTML tradicional.
+
+=-=-= Organização dos arquivos CSS =-=-=
+
+Para projetos React mais estruturados, é importante manter os arquivos CSS organizados de maneira eficiente. Neste contexto, algumas práticas comuns de uso de CSS incluem: uso de CSS Global, uso de CSS específico para componentes ou uma definição melhor da estrutura de pastas CSS.
+
+- CSS Global
+Um arquivo CSS global que contém estilos que se aplicam a toda a aplicação, como fontes padrão, cores e layouts gerais. Por exemplo, considere o seguinte código para o arquivo index.css:
+
+/* index.css */
+body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+}
+h1,h2,h3 {
+        color: rgb(32, 105, 209);
+}
+    
+
+
+Esse código CSS define estilos básicos para uma página web. O elemento body tem margens e padding zerados, e a fonte utilizada será 'Arial' ou, em sua ausência, uma fonte genérica sem serifa (sans-serif). Para os elementos h1, h2 e h3, a cor do texto será definida como um tom de azul claro (rgb(32, 105, 209)).
+
+Agora, no arquivo main.jsx, você importa o arquivo index.css para que os estilos sejam aplicados globalmente. Além disso, renderiza os componentes da aplicação no DOM, tal como apresentado no quadro abaixo:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
+import OutroApp from './OutroApp.jsx'
+import './index.css'
+    
+createRoot(document.getElementById('root')).render(
+      <StrictMode>
+        <App />
+        <OutroApp />
+      </StrictMode>,
+)
+    
+
+
+Se você ainda não tiver o arquivo App.jsx, crie-o para ver os estilos globais aplicados. Este componente será renderizado no DOM. Veja seu código abaixo:
+
+// App.jsx
+function App() {
+        return (
+          <div>
+            <h1>Bem-vindo ao Meu App</h1>
+            <h2>Este é um exemplo de CSS global no React</h2>
+          </div>
+        );
+}
+export default App;
+      
+
+
+Em seguida, se você ainda não tiver o arquivo OutroApp.jsx, crie-o para ver os estilos globais aplicados. Este componente será renderizado no DOM. Veja seu código abaixo:
+
+// OutroApp.jsx
+function OutroApp() {
+        return (
+          <div>
+            <h3>Este é outro exemplo de CSS global no React</h3>
+          </div>
+        );
+}
+export default OutroApp;
+
+- CSS Específico para Componentes
+Para manter o código modular, pode-se criar um arquivo CSS separado para cada componente. Isso evita a poluição no escopo global e facilita a manutenção do código. Por exemplo, um arquivo chamado component.css com o seguinte estilo CSS:
+
+.componente {
+    background-color: lightblue;
+    padding: 15px;
+}
+
+
+Em seguida, podemos utilizar este estilo CSS em um componente React definido em Component.jsx da seguinte forma:
+
+import './component.css';
+function Component() {
+        return <div className="componente">Estilo para componente</div>;
+}
+export default Component;
+      
+
+
+Estrutura de Pastas CSS
+Em projetos maiores, é comum organizar os arquivos CSS dentro de uma estrutura de pastas, separando estilos globais, estilos de componentes e até estilos de páginas específicas. 
+
+=-=-= Escopo Global vs. Escopo Local =-=-=
+Uma característica importante dos arquivos CSS tradicionais é que eles têm escopo global (MDN WEB DOCS, 2024). Isso pode gerar conflitos de estilo quando diferentes componentes compartilham o mesmo nome de classe, mas precisam de estilos diferentes.
+
+Veja abaixo um exemplo deste tipo de conflito, onde definimos a classe CSS chamada .button em um arquivo chamado App.css:
+
+/* App.css */
+.button {
+        background-color: blue;
+        color: white;
+}
+    
+
+
+E, depois, definirmos outra classe chamada .button em um outro arquivo chamado AnotherComponent.css:
+
+/* AnotherComponent.css */
+.button {
+        background-color: red;
+        color: black;
+}
+    
+
+
+Se ambos os componentes (App e AnotherComponent) forem renderizados na mesma página, os estilos podem se sobrepor, causando resultados inesperados.
+
+Para evitar esses problemas, você pode seguir algumas práticas, tais como Naming Convention (BEM) ou CSS Modules.
+
+=-=-= Naming Convention (BEM) =-=-=
+Use convenções de nomenclatura como BEM (Block, Element, Modifier) para garantir que os nomes de classe sejam exclusivos e descritivos. Isso ajuda a evitar conflitos e torna os estilos mais fáceis de manter. Veja no quadro abaixo um exemplo de Naming Convention (BEM):
+
+/* Header.css */
+.header__title {
+        font-size: 24px;
+        color: blue;
+}
+.header__button--primary {
+        background-color: green;
+        color: white;
+}
+
+=-=-= CSS Modules =-=-=
+Uma solução mais avançada seria usar CSS Modules, que permite que os estilos sejam escopados localmente aos componentes, resolvendo completamente o problema de conflitos de classe. Embora os CSS Modules não sejam exatamente CSS tradicional, eles permitem que você escreva CSS como de costume, mas com a vantagem do escopo local.
+
+O nome do arquivo de um CSS Module deve seguir o padrão .module.css. Por exemplo, considere o arquivo Button.module.css com o seguinte código:
+
+.button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+
+Podemos utilizar este estilo, por exemplo, no arquivo Button.jsx da seguinte forma:
+
+import styles from "./Button.module.css"; // Importa os estilos
+
+const Button = () => {
+        return <button className={styles.button}>Click Me</button>; // Usa o estilo
+};
+      
+export default Button;
+      
+
+
+Neste exemplo, styles.button acessa a classe button definida em Button.module.css. O React vai gerar um nome de classe único (como Button_button__2xQNz), tornando impossível que outra classe .button de outro arquivo sobrescreva esse estilo. Veremos mais sobre CSS Modules no decorrer deste curso.

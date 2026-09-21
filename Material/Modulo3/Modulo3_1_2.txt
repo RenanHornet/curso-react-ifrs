@@ -1,0 +1,132 @@
+=== Estilos Inline (Inline Styles) ===
+
+O uso de Estilos Inline (Inline Styles) no React é uma forma de aplicar estilos diretamente aos elementos HTML utilizando objetos JavaScript (W3SCHOOLS, 2024). Isso significa que, em vez de escrever um arquivo CSS separado ou usar classes, você define os estilos como um objeto dentro do componente e passa esse objeto diretamente para o atributo style do elemento.
+
+Essa abordagem é útil quando você quer aplicar estilos de maneira rápida ou condicional diretamente no código do componente, sem a necessidade de criar arquivos CSS externos.
+
+=-=-= Estrutura de estilos inline =-=-=
+
+No React, o valor do atributo style deve ser um objeto JavaScript, no qual as propriedades CSS são escritas em camelCase (ao contrário do uso de hífens no CSS tradicional). Além disso, os valores numéricos não requerem unidades como px, pois o React assume px como padrão, exceto quando uma unidade diferente é especificada, como % ou em.
+
+OBS: Saiba que em é uma unidade de medida relativa usada em CSS, comumente empregada para definir o tamanho de fontes e outros elementos. Ela é relativa ao tamanho da fonte do elemento pai. Por exemplo, se o tamanho da fonte do elemento pai for 16 pixels, então 1em equivale a 16 pixels. Se você definir um valor como 2em, isso será o dobro, ou seja, 32 pixels. A unidade em é útil para criar layouts e textos responsivos, pois permite que o tamanho dos elementos se ajuste de acordo com o contexto, mantendo uma proporção relativa. Além de fontes, em também pode ser usada para margens, espaçamentos, entre outros estilos de layout.
+
+=-=-= camelCase nas propriedades CSS =-=-=
+No React, como o código JSX é basicamente JavaScript, as propriedades de estilo que normalmente usam hífens no CSS (como background-color ou font-size) precisam ser transformadas para a notação camelCase.
+
+Veja abaixo alguns exemplos de conversão:
+
+--- Propridade CSS Tradicional ---
+background-color;
+font-size;
+margin-tpo;
+border-radius.
+
+--- Propriedades no React (camelCase) ---
+
+backgroundColor;
+fontSize;
+marginTop;
+borderRadius.
+
+=-=-= Exemplo Básico =-=-=
+
+Veja abaixo um exemplo simples de como aplicar estilos inline no React:
+
+function App() {
+    const estiloDiv = {
+        backgroundColor: "lightblue",
+        padding: "20px",
+        fontSize: 18,
+      };
+      return <div style={estiloDiv}>Meu Componente Estilizado</div>;
+}
+export default App;
+
+Neste exemplo:
+
+- O objeto estiloDiv contém as propriedades de estilo. Cada propriedade CSS que normalmente usaria no CSS tradicional (como background-color) é convertida para a forma camelCase (backgroundColor).
+- O valor 20px é passado como uma string porque inclui a unidade px.
+- O valor de fontSize é apenas um número, de modo que o React assume px como unidade padrão.
+- O atributo style no JSX recebe o objeto estiloDiv que contém os estilos que serão aplicados diretamente ao elemento div.
+
+=-=-= Valores numéricos e unidades =-=-=
+No React, você pode omitir unidades como px ao definir valores numéricos. Se o valor for um número puro, o React assume que é px, exceto para algumas propriedades específicas (como lineHeight, onde o número pode ser unitário).
+
+Veja um exemplo no quadro abaixo:
+
+function App() {
+    const estiloDiv = {
+        backgroundColor: "lightblue",
+        padding: 20, // React assume que isso é 20px
+        marginTop: 30, // Isso também será 30px
+      };
+      return <div style={estiloDiv}>Meu Componente Estilizado</div>;
+}
+export default App;
+
+Neste mesmo exemplo, se quiser usar uma unidade diferente (por exemplo, % ou em), você precisa colocar o valor como uma string:
+
+function App() {
+    const estiloDiv = {
+        backgroundColor: "lightblue",
+        width: "50%", // Unidades como % devem ser strings
+        fontSize: "1.5em", // Unidades em 'em' também precisam ser strings
+      };
+      return <div style={estiloDiv}>Meu Componente Estilizado</div>;
+}
+export default App;
+
+=-=-= Estilos inline múltiplos e combinação de objetos =-=-=
+Outra vantagem dos estilos inline no React é a possibilidade de combinar objetos de estilo facilmente, seja com o uso do operador spread (...) ou usando funções utilitárias de JavaScript como Object.assign.
+
+Você pode usar o operador spread (...) para combinar dois ou mais objetos de estilo, conforme exemplo abaixo:
+
+function App() {
+    const estiloBase = {
+        padding: "20px",
+        color: "white",
+      };
+      const estiloExtra = {
+        backgroundColor: "blue",
+        fontWeight: "bold",
+      };
+      return (
+        <div style={{ ...estiloBase, ...estiloExtra }}>Estilizado com Spread</div>
+      );
+}
+export default App;
+
+Outra maneira de combinar estilos é usando Object.assign, conforme quadro abaixo:
+
+function App() {
+    const estiloBase = {
+        padding: "20px",
+        color: "white",
+      };
+      const estiloExtra = {
+        backgroundColor: "blue",
+        fontWeight: "bold",
+      };
+      const estiloCombinado = Object.assign({}, estiloBase, estiloExtra);
+      return <div style={estiloCombinado}>Estilizado com Object.assign</div>;
+}
+export default App;
+
+=-=-= Limitações dos estilos inline =-=-=
+Apesar de ser uma forma rápida e prática para aplicar estilos diretamente, os Inline Styles no React têm algumas limitações:
+
+- Falta de Pseudo-Classes: Não é possível aplicar pseudo-classes como :hover, :focus ou :active diretamente nos estilos inline.
+
+- Falta de Suporte para Pseudo-Elementos: Não é possível utilizar pseudo-elementos como ::before e ::after diretamente.
+Manutenção e Reusabilidade: À medida que a complexidade do projeto cresce, o uso excessivo de estilos inline pode se tornar difícil de manter.
+
+- Complexidade de Media Queries: Aplicar media queries diretamente nos estilos inline é inviável. As Media queries permitem aplicar estilos diferentes a uma página com base nas características do dispositivo ou da janela do navegador, como largura, altura, resolução, orientação (paisagem ou retrato) e outros.
+
+=-=-= Quando usar estilos inline? =-=-=
+Os Estilos Inline (Inline Styles) são particularmente úteis em cenários onde:
+
+- Você precisa aplicar um estilo específico e dinâmico baseado em uma condição.
+
+- O componente é muito pequeno e não precisa de reutilização extensiva dos estilos.
+
+- Deseja evitar criar arquivos CSS adicionais ou uma estrutura complexa de classes.

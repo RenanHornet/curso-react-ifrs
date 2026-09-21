@@ -1,0 +1,64 @@
+=== Styled Components ===
+Styled Components é uma biblioteca para React e React Native que permite escrever estilos CSS diretamente dentro dos componentes JavaScript utilizando Tagged Template Literals (REACT DOCS, 2024). Essa abordagem é conhecida como CSS-in-JS e traz diversas vantagens, como o escopo automático de estilos, a capacidade de aplicar estilos dinâmicos baseados em props e estados, e a remoção de preocupações com conflitos de nomes de classes.
+
+Styled Components permite que você escreva código JavaScript e CSS juntos, encapsulando a lógica de estilo diretamente no componente React. Isso resulta em componentes totalmente estilizados e independentes, onde o estilo e a estrutura estão fortemente acoplados, facilitando a modularidade e a reutilização.
+
+=-=-= Principais benefícios dos Styled Components =-=-=
+Podemos citar os seguintes benefícios do uso de Styled Components:
+
+- Escopo Local Automático: Os estilos são automaticamente aplicados apenas ao componente ao qual pertencem, evitando conflitos de nomes de classes.
+
+- Estilos Dinâmicos: Você pode aplicar estilos com base em props, estado ou qualquer lógica de JavaScript diretamente dentro do componente.
+
+- Eliminação de Folhas de Estilo Externas: Com Styled Components, você não precisa de arquivos CSS separados; os estilos são diretamente integrados no componente.
+
+- Suporte para Animações e Temas: A biblioteca também oferece suporte completo para animações e permite a criação de temas para fácil manutenção de estilos globais.
+
+=-=-= Como instalar Styled Components =-=-=
+Antes de começar a usar Styled Components em seus projetos, você precisa instalar a biblioteca no seu projeto React:
+
+npm install styled-components
+
+
+Ou, se estiver usando yarn:
+
+yarn add styled-components
+
+=-=-= Exemplo básico de Styled Components =-=-=
+
+Vamos ver um exemplo simples de como usar Styled Components para estilizar um componente React. Desta forma, considere alterar o arquivo App.jsx com o seguinte código:
+
+import styled from "styled-components";
+
+// Definindo um componente estilizado
+const Container = styled.div`
+      background-color: lightblue;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    `;
+
+// Definindo outro componente estilizado
+const Titulo = styled.h1`
+      color: darkblue;
+      font-size: 24px;
+    `;
+
+function App() {
+      return (
+        <Container>
+          <Titulo>Olá<, este é um exemplo de Styled Components!</Titulo>
+        </Container>
+      );
+}
+
+export default App;
+
+Neste exemplo:
+
+- styled.div: Estamos criando um componente estilizado chamado Container com a função styled.div. Ele retorna uma div HTML com os estilos definidos diretamente dentro de um template literal.
+
+- Uso de styled: styled é a função principal da biblioteca. Ela pode ser usada para criar componentes estilizados de qualquer tipo de elemento HTML como div, button, input, etc.
+
+- Template Literals: Os estilos CSS são escritos dentro de um template literal (usando crases ` ` ), permitindo interpolação de variáveis JavaScript para criar estilos dinâmicos.
+
