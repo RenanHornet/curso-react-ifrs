@@ -1,0 +1,163 @@
+=== Estilização Condicional no React ===
+
+A estilização condicional permite alterar dinamicamente os estilos de um componente com base em variáveis, estados ou props (propriedades). No React, essa funcionalidade é extremamente útil, pois a aparência de um componente pode mudar com base nas interações do usuário, em mudança no estado, ou em valores que o componente recebe como props.
+
+Existem várias maneiras de implementar estilização condicional no React, dependendo da abordagem que você está usando para aplicar estilos. A seguir veremos cada uma dessas abordagens com exemplos práticos. 
+
+=-=-= Estilização condicional com estilos inline (inline styles) =-=-=
+Com Estilos Inline (Inline Styles) no React, você pode aplicar estilos dinamicamente com base no estado do componente ou em propriedades (props). Isso é muito útil para alterar a aparência de um componente em resposta a interações do usuário, como cliques, ou para refletir mudanças de estado.
+
+Veja um exemplo de como alterar a cor de fundo dinamicamente com base no estado:
+
+import { useState } from "react";
+function App() {
+        const [ativo, setAtivo] = useState(false);
+        const estiloDiv = {
+          backgroundColor: ativo ? "green" : "red", // cor muda dinamicamente
+          padding: "20px",
+          color: "white",
+          textAlign: "center",
+        };
+        return (
+          <div style={estiloDiv} onClick={() => setAtivo(!ativo)}>
+            Clique para mudar a cor!
+          </div>
+        );
+}
+export default App;
+
+Neste exemplo:
+
+- O estado ativo é inicializado como false.
+- O estilo da div tem a propriedade backgroundColor definida com base no valor de ativo. Se ativo for true, a cor de fundo será green, caso contrário será red.
+- Ao clicar na div, o estado ativo muda, e com ele os estilos também mudam.
+
+=-=-= Estilização condicional com classe CSS =-=-=
+No React, você pode alternar entre diferentes classes CSS com base em condições, como estados ou props. Isso permite aplicar estilos de maneira condicional com classes diferentes.
+
+Veremos isso em um exemplo. Primeiro, considere um arquivo CSS chamado App.css que contenha com as seguintes classes:
+
+/* App.css */
+.botao {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+}
+      
+.ativo {
+        background-color: green;
+        color: white;
+ }
+      
+.inativo {
+        background-color: gray;
+        color: white;
+}
+
+O código CSS deste exemplo define estilos para botões com três classes. A classe .botao estiliza o botão com padding, bordas arredondadas e remove a borda padrão, além de exibir um ponteiro ao passar o mouse. A classe .ativo aplica um fundo verde e texto branco para um botão ativo, enquanto a classe .inativo aplica um fundo cinza e texto branco para um botão inativo, diferenciando visualmente os estados de um botão.
+
+Agora, no componente React, em App.jsx, vamos utilizar estas classes CSS:
+
+import { useState } from "react";
+import "./App.css"; // Importa as classes CSS
+function App() {
+      const [ativo, setAtivo] = useState(false);
+      return (
+        <div>
+          <button
+            className={`botao ${ativo ? "ativo" : "inativo"}`}
+            onClick={() => setAtivo(!ativo)}>
+            {ativo ? "Ativo" : "Inativo"}
+          </button>
+        </div>
+      );
+}
+export default App;
+
+Observe neste exemplo:
+
+- Combinação de Classes: A classe base botao é sempre aplicada, mas as classes ativo ou inativo são alternadas com base no estado ativo.
+- Template Literals: Usamos template literals para concatenar as classes dinamicamente.
+- Alternância de Classes: Se ativo for true, a classe ativo será aplicada; caso contrário, a classe inativo será usada, alterando a cor do botão dinamicamente.
+
+=-=-= Estilização condicional com CSS Modules =-=-=
+CSS Modules escopam os estilos localmente, e você pode aplicar classes condicionalmente de forma semelhante ao uso de classes CSS tradicionais, mas com a vantagem de evitar conflitos de nomes. Vamos analisar a estilização condicional com CSS Modules através de um exemplo. Para isso, considere a criação de um arquivo App.module.css com o seguinte código:
+
+.botao {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ativo {
+    background-color: green;
+    color: white;
+}
+.inativo {
+    background-color: gray;
+    color: white;
+}
+
+Em seguida, no componente React definido em App.jsx, considere o seguinte código:
+
+import { useState } from "react";
+import styles from "./App.module.css"; // Importa as classes CSS do CSS Module
+function App() {
+      const [ativo, setAtivo] = useState(false);
+      return (
+        <div>
+          <button
+            className={`${styles.botao} ${ativo ? styles.ativo : styles.inativo}`}
+            onClick={() => setAtivo(!ativo)}>
+            {ativo ? "Ativo" : "Inativo"}
+          </button>
+        </div>
+      );
+}
+export default App;
+
+Observe neste código:
+
+CSS Modules: As classes CSS são importadas como um objeto JavaScript (styles), onde cada classe é uma chave do objeto.
+Combinação de Classes: Estamos combinando as classes com base no estado ativo, mas essas classes são escopadas localmente ao componente. Veja que dependendo do valor de ativo, o botão recebe a classe CSS correspondente, usando classes do CSS Module importadas de App.module.css
+
+=-=-= Estilização Condicional com Styled Components =-=-=
+Com Styled Components, a estilização condicional se torna ainda mais poderosa, pois você pode aplicar estilos diretamente dentro do componente usando props e estado. Essa abordagem permite que você altere dinamicamente qualquer aspecto do estilo com base nas variáveis do componente. Veremos um exemplo prático de uso de estilização condicional com Styled Components. Para isso, considere o arquivo App.jsx com o seguinte código:
+
+import { useState } from "react";
+import styled from "styled-components";
+
+// Definindo um botão estilizado com base em props
+const Botao = styled.button`
+      background-color: ${(props) => (props.ativo ? "green" : "gray")};
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      &:hover {
+        background-color: ${(props) => (props.ativo ? "darkgreen" : "darkgray")};
+      }
+`;
+    
+function App() {
+      const [ativo, setAtivo] = useState(false);
+    
+    
+      return (
+        <div>
+          <Botao ativo={ativo} onClick={() => setAtivo(!ativo)}>
+            {ativo ? "Ativo" : "Inativo"}
+          </Botao>
+        </div>
+      );
+}
+export default App;
+
+Observe neste exemplo:
+
+- Styled Components: A biblioteca permite que você escreva estilos CSS diretamente dentro do componente JavaScript, usando template literals.
+- Estilos Baseados em Props: A cor de fundo do botão muda dinamicamente com base no valor da prop ativo, que é derivada do estado. Se ativo for true, o botão será verde; caso contrário, será cinza.
+- Estilos Dinâmicos no hover: A cor ao passar o mouse (hover) também muda dinamicamente com base no estado. O & é usado para referenciar o próprio elemento e adicionar pseudo-classes como :hover.
+
