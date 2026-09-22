@@ -1,0 +1,52 @@
+=== Configuração das Rotas ===
+Agora, precisamos cirar um Browser Router e configurar nossas primeira rota. Isso habilitará o roteamento no lado do cliente para o nosso aplicativo web. Browser Router é o roteador específico do React Router que usa a API de histórico do navegador. Isso é essencial para habilitar o roteamento no lado do cliente, ou seja, permitir a navegação entre diferentes páginas da sua aplicação sem recarregar a página. 
+
+O createBrowserRouter e o RouterProvider fazem parte da biblioteca React Router e são utilizados para configurar e gerenciar o roteamento dentro de uma aplicação React (REACT DOCS, 2024). O createBrowserRouter cria um roteador do tipo "Browser Router". Este tipo de roteador utiliza a API de Histórico do Navegador (History API) para controlar as rotas da aplicação, ou seja, permite uma navegação baseada em URLs, sem recarregar a página (usando o mecanismo de "Single Page Application"). Já o RouterProvider é um componente React que "envolve" a aplicação e provê o roteador criado (com createBrowserRouter) para ela. Ele gerencia toda a lógica de navegação entre as rotas da aplicação, permitindo que o roteador passe informações sobre a rota atual para os componentes da aplicação.
+
+Neste contexto, considere o seguinte código de configuração inicial do roteador no arquivo main.jsx:
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Products from "./pages/Products.jsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+    
+const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/products",
+        element: <Products />,
+      },
+]);
+createRoot(document.getElementById("root")).render(
+      <StrictMode>
+        <RouterProvider router={router} />
+      </StrictMode>
+);
+
+Neste código, observe que:
+
+- createBrowserRouter: Este comando configura o roteador para o aplicativo.
+    O roteador espera um array de rotas, e cada rota é definida como um objeto que inclui:
+    -path: Define o caminho da URL.
+    -element: O componente que será renderizado quando o usuário acessar a rota especificada.
+    -children (opcional): Pode ser usado para definir rotas "filhas" (sub-rotas) que podem herdar ou estar aninhadas em rotas principais.
+<RouterProvider router={router} />: conecta o sistema de roteamento à aplicação.
+    O <RouterProvider> é um componente que recebe um objeto router como propriedade (prop). Esse objeto contém toda a configuração de rotas que você definiu usando o createBrowserRouter.
+    Ele age como um "provedor" de rotas, que significa que ele disponibiliza o roteador para que todos os componentes internos da árvore do React possam acessar e utilizar as funcionalidades de roteamento.
+    O roteador define qual componente deve ser exibido com base no caminho da URL.
+Quando a aplicação inicia, o <RouterProvider> analisa a URL atual (por exemplo, “/”) e verifica qual componente deve ser exibido. Neste exemplo, se a URL for a raiz (“/”), o componente App será renderizado.

@@ -1,0 +1,102 @@
+=== Criação de temas e personalização de interfaces em React ===
+A criação de temas centraliza a lógica de estilo em um único lugar, permitindo alternar facilmente entre diferentes conjuntos de cores, fontes e espaçamentos. Existem várias abordagens para a criação de temas em React, mas a mais comum é usar a biblioteca Styled Components ou o Context API (REACT DOCS, 2024).
+
+=-=-= Utilizando Styled Components para criar temas =-=-=
+Styled Components é uma biblioteca popular para estilizar componentes em React, que permite criar componentes CSS em JavaScript. Uma de suas funcionalidades poderosas é a criação de temas, que facilita a troca de estilos em toda a aplicação de forma dinâmica e eficiente, como alternar entre um tema claro e um tema escuro. 
+
+=-=-= Como funciona a criação de temas com Styled Components? =-=-=
+A criação de temas com Styled Components funciona da seguinte forma:
+
+- Definição de tema: Você cria um objeto com as cores, tamanhos, e outros atributos de estilo que deseja reutilizar.
+- ThemeProvider: Esse componente especial do Styled Components permite envolver a aplicação e fornecer o tema para todos os componentes internos.
+- Acesso ao tema: Dentro dos componentes estilizados, você pode acessar as propriedades do tema usando a função de interpolação props.theme.
+
+=-=-= Exemplo Simples =-=-=
+Veremos um exemplo simples sobre a criação de temas com Styled Components. Dessa forma, primeiramente, considere a instalação da biblioteca Styled Components em seu projeto React através da execução do seguinte comando:
+
+npm install styled-components
+
+Em seguida, precisamos definir os temas. Para isso, considere a criação de um arquivo, chamado theme.jsx, para armazenar os diferentes temas. Por exemplo, considere um tema claro e um tema escuro.
+
+export const lightTheme = {
+    background: "#fff",
+    color: "#000",
+};
+export const darkTheme = {
+    background: "#000",
+    color: "#fff",
+};
+  
+  Agora, use o ThemeProvider para passar o tema à aplicação. O ThemeProvider permite que qualquer componente estilizado possa acessar o tema via props. Assim, considere no arquivo App.jsx a seguinte lógica para alternar entre temas:
+
+import { useState } from "react";
+import { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme } from "./theme";
+import styled from "styled-components";
+    
+const Container = styled.div`
+      background-color: ${(props) => props.theme.background};
+      color: ${(props) => props.theme.color};
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+`;
+function App() {
+      const [isDarkMode, setIsDarkMode] = useState(false);
+      return (
+        <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+          <Container>
+            <button onClick={() => setIsDarkMode(!isDarkMode)}>Trocar Tema</button>
+          </Container>
+        </ThemeProvider>
+      );
+}
+export default App;
+
+Neste exemplo, observe que:
+
+- Dentro dos componentes estilizados, o tema é acessado através de props.theme. Aqui, props.theme.background e props.theme.color são usados para definir o fundo e a cor do texto dinamicamente com base no tema selecionado.
+- ThemeProvider: Esse componente envolve toda a aplicação e fornece o tema selecionado para os componentes dentro dele. Isso cria um contexto de tema, de modo que qualquer componente pode acessar as propriedades do tema através de props.theme.
+- Troca de tema: A troca entre o tema claro e o tema escuro é controlada pelo estado isDarkMode, que ao ser alterado muda o valor do tema passado ao ThemeProvider.
+
+=-=-= Alternando temas com Context API =-=-=
+Para alternar temas utilizando a Context API do React, podemos criar um contexto para armazenar e gerenciar o estado do tema globalmente. Isso permite que qualquer componente na aplicação acesse e altere o tema sem precisar passar props por vários níveis.
+
+Primeiro, considere a criação de um arquivo chamado theme.jsx com os temas de nossa aplicação:
+
+export const temaClaro = {
+    background: "#fff",
+    color: "#000",
+};
+export const temaEscuro = {
+    background: "#000",
+    color: "#fff",
+};
+
+Em seguinda, considere a criação de um arquivo chamado ThemeContext.jsx com o seguinte código:
+
+import { createContext, useState } from "react";
+import { temaClaro, temaEscuro } from "./theme";
+
+export const ThemeContext = createContext();
+    
+export const ThemeProvider = ({ children }) => {
+      const [temaAtual, setTemaAtual] = useState(temaClaro);
+      const alternarTema = () => {
+        setTemaAtual(temaAtual === temaClaro ? temaEscuro : temaClaro);
+      };
+      return (
+        <ThemeContext.Provider value={{ temaAtual, alternarTema }}>
+          {children}
+        </ThemeContext.Provider>
+      );
+};
+
+Observe que:
+
+- Contexto do Tema: O ThemeContext mantém o estado do tema atual (temaAtual) e a função para alternar entre os temas.
+- useContext: No componente App, usamos o hook useContext para acessar o tema atual e a função alternarTema diretamente.
+- Estilos Inline: Aplicamos os estilos com base no tema diretamente no estilo inline dos elementos.
+

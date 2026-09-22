@@ -1,0 +1,82 @@
+=== Roteamento no lado do cliente ===
+O roteamento no lado do cliente (client-side routing) é uma técnica utilizada em Single Page Applications (SPAs) para atualizar a URL sem fazer uma nova requisição ao servidor para carregar uma página completa. Em vez disso, o aplicativo manipula a mudança de URL localmente e atualiza apenas a parte necessária da interface. Isso proporciona uma navegação mais rápida e fluida, já que o usuário não precisa esperar pelo carregamento de uma nova página.
+
+No cenário atual, a aplicação está fazendo uma requisição completa (full document request) ao servidor quando o usuário clica em um link de nossa aplicação. Esse comportamento é comum em sites tradicionais, onde cada clique em um link carrega uma nova página, resultando em uma experiência mais lenta.
+
+Veremos algumas estratégias para evitarmos este comportamento no navegador.
+
+=-=-= Uso do componente <link> =-=-=
+O componente <Link> é um elemento do React Router utilizado para navegação no lado do cliente. Embora sua função seja semelhante à da tag do HTML, ele oferece uma vantagem: em vez de recarregar toda a página ao clicar em um link, o React Router intercepta o evento, atualiza a URL no navegador e modifica apenas a interface de usuário, sem a necessidade de recarregar o conteúdo já carregado. Isso proporciona uma navegação mais fluida e rápida dentro da aplicação.
+
+Neste contexto, em vez de usar uma tag como esta:
+
+<a href="/about">Sobre</a>
+
+Usaremos o componente do React Router assim:
+
+import { Link } from "react-router-dom";
+<Link to="/about">Sobre</Link>
+
+Onde:
+
+<Link>: É o componente que substitui a tag para criar links no React Router.
+to: A prop to define a URL para a qual o link deve redirecionar. O React Router lida com a navegação internamente, sem recarregar a página inteira.
+
+Neste contexto, vamos adicionar o componente Link à nossa aplicação. Assim, considere alterar o arquivo App.jsx com o seguinte código:
+
+import { Link } from "react-router-dom";
+function App() {
+        return (
+          <div>
+            <header>
+              <h1>Minha Loja Virtual</h1>
+              <nav>
+                <ul>
+                  <li><Link to="/home">Home</Link></li>
+                  <li><Link to="/about">Sobre</Link></li>
+                  <li><Link to="/products">Produtos</Link></li>
+                </ul>
+              </nav>
+            </header>
+            <main>
+              <p>Conteúdo que virá de cada página.</p>
+            </main>
+            <footer>
+              <p>&copy; 2024 Minha Loja. Todos os direitos reservados.</p>
+            </footer>
+          </div>
+        );
+}
+export default App;
+
+Faça um teste em nossa aplicação web. Observe que, quando clicamos em um link gerado pelo componente do React Router, a URL muda imediatamente no navegador, e o novo conteúdo aparece na tela sem um recarregamento completo da página.
+
+=-=-= Hook useNavigate =-=-=
+O useNavigate é um hook fornecido pelo React Router que permite a navegação programática, ou seja, redirecionamentos feitos por ações de código, como após o envio de formulários, cliques de botão, ou quando há necessidade de redirecionamento com base em lógica de negócios.
+
+O useNavigate é útil quando você deseja navegar para outra rota sem depender de um . Por exemplo, ao submeter um formulário, você pode querer redirecionar o usuário para uma página diferente após o sucesso. Quando você chama a função retornada pelo useNavigate, ela muda a URL da mesma forma que o , e o React Router lida com a renderização do componente correto.
+
+Por exemplo, altere o arquivo Home.jsx com o seguinte código:
+
+import { useNavigate } from 'react-router-dom';
+
+function Home() {
+        const navigate = useNavigate();
+      
+      
+        const handleClick = () => {
+          // Faz algo (por exemplo, autenticação ou validação)
+          navigate('/about'); // Redireciona para a página "Sobre Nós"
+        };
+        return (
+          <div>
+            <h1>Home Page</h1>
+            <p>Bem-vindo à nossa loja online!</p>
+            <button onClick={handleClick}>Ir para a página Sobre Nós</button>
+          </div>
+        );
+}
+
+export default Home;
+
+Após, clique no botão “Ir para a página Sobre Nós” e veja que fomos redirecionados para a página “Sobre”.

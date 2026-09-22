@@ -1,0 +1,84 @@
+=== Rotas Aninhadas (Nested Routes) ===
+As rotas aninhadas (nested routes) no React Router são um recurso poderoso que permite estruturar a navegação de uma aplicação de forma hierárquica. Elas permitem que você defina rotas dentro de outras rotas, criando uma estrutura de componentes e caminhos que refletem layouts aninhados ou páginas com sub-páginas.
+
+Em nossa aplicação, observe que, ao clicarmos em “Home”, “Sobre” ou “Produtos”, seu conteúdo é carregado em um novo layout (sem cabeçalho, menu ou rodapé). Queremos, entretanto, que os componentes Home, About e Products sejam renderizados dentro do layout definido em App. Desta forma, vamos alterar as rotas de nossa aplicação em main.jsx:
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Products from "./pages/Products.jsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <App />,
+        children: [
+          {
+            path: "/",
+            element: <Home />,
+          },
+          {
+            path: "/about",
+            element: <About />,
+          },
+          {
+            path: "/products",
+            element: <Products />,
+          },
+        ],
+      },
+]);
+    
+createRoot(document.getElementById("root")).render(
+      <StrictMode>
+        <RouterProvider router={router} />
+      </StrictMode>
+);
+
+Observe neste exemplo:
+
+path: "/" (Rota Pai):
+A rota raiz (/) utiliza o componente App como o layout principal da aplicação. Ele atua como o "pai" para todas as rotas filhas.
+errorElement: <ErrorPage />: Define que, se qualquer erro ocorrer dentro desta rota pai ou em suas rotas filhas (tais como /about ou /products), o componente ErrorPage será exibido.
+
+children (Rotas Filhas):
+As rotas filhas estão aninhadas dentro da rota pai e são definidas como caminhos relativos (/, /about, /products).
+Cada uma dessas rotas pode gerar erros (como falhas ao carregar dados), e o errorElement da rota pai cuidará desses erros, exibindo o ErrorPage.
+
+ErrorPage:
+Este é o componente que será renderizado quando ocorrer um erro. Ele pode exibir uma mensagem amigável ou instruções para o usuário.
+
+Em seguida, precisamos alterar o arquivo App.jsx para definir melhor um espaço reservado onde o conteúdo da rota filha será renderizado:
+
+import { Outlet, Link } from "react-router-dom";
+
+function App() {
+        return (
+          <div>
+            <header>
+              <h1>Minha Loja Virtual</h1>
+              <nav>
+                <ul>
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="/about">Sobre</Link></li>
+                  <li><Link to="/products">Produtos</Link></li>
+                </ul>
+              </nav>
+            </header>
+            <main>
+              {/* Outlet é o "espaço reservado" onde o conteúdo da rota filha será renderizado */}
+              <Outlet />
+            </main>
+            <footer>
+              <p>&copy; 2024 Minha Loja. Todos os direitos reservados.</p>
+            </footer>
+          </div>
+        );
+}
+export default App;
+
+Observe que componente Outlet é o ponto de inserção onde as rotas filhas serão renderizadas dentro do layout da rota pai. Quando o usuário visita, por exemplo, /about, o conteúdo da rota filha () será renderizado no lugar do Outlet dentro do layout de Dashboard.
+

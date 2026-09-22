@@ -1,0 +1,86 @@
+=== Tratando erros de rotas ===
+No contexto de uma aplicação React que utiliza o React Router para gerenciar rotas, é importante lidar corretamente com erros que ocorrem durante o carregamento, renderização ou mutação de dados dentro de uma rota específica. Quando um erro ocorre em uma rota, o React Router consegue capturar esse erro e fazer com que um componente de erro designado seja exibido (rota de fallback).
+
+Para tratar esses cenários, é comum criar uma rota de erro personalizada, que será exibida sempre que nenhuma outra rota corresponder à URL acessada. Para isso, usaremos o useRouteError, que é um hook disponibilizado pelo React Router para capturar e lidar com erros que ocorrem durante o carregamento, renderização ou mutação de dados dentro de uma rota específica. Ele facilita a implementação de páginas de erro personalizadas, permitindo que você acesse o erro diretamente dentro de um componente.
+Desta forma, precisamos alterar o arquivo main.jsx da seguinte forma:
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Products from "./pages/Products.jsx";
+import ProductDetails, {
+      loader as productLoader,
+} from "./pages/ProductDetails";
+import ErrorPage from "./pages/ErrorPage.jsx"; // Componente de erro personalizado
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+    
+const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <App />,
+        errorElement: <ErrorPage />, // Define o componente de erro para esta rota
+        children: [
+          {
+            path: "/",
+            element: <Home />,
+          },
+          {
+            path: "/about",
+            element: <About />,
+          },
+          {
+            path: "/products",
+            element: <Products />,
+          },
+          {
+            path: "/products/:id",
+            element: <ProductDetails />,
+            loader: productLoader, // Carrega os dados do produto
+          },
+        ],
+      },
+]);
+    
+createRoot(document.getElementById("root")).render(
+      <StrictMode>
+        <RouterProvider router={router} />
+      </StrictMode>
+);
+    
+Observe que ao definir o roteador com createBrowserRouter, você pode especificar um errorElement para cada rota. Esse elemento é o componente de erro que será exibido quando a rota falhar (neste caso, o componente ErrorPage).
+
+Em seguida, adicione o seguinte código ao arquivo ErrorPage.jsx:    
+
+import { useRouteError } from "react-router-dom";
+
+function ErrorPage() {
+        const error = useRouteError(); // Captura o erro da rota
+      
+        return (
+         <div>
+           <h1>Oops! Algo deu errado.</h1>
+           <p>Desculpe, não conseguimos carregar a página.</p>
+           <p>
+            <i>{error.statusText || error.message}</i> {/*Exibe a mensagem do erro*/}
+           </p>
+         </div>
+        );
+}
+export default ErrorPage;
+
+Observe que dentro do componente ErrorPage, o hook useRouteError captura o objeto de erro gerado pela falha da rota. Esse erro pode incluir detalhes como mensagens de falha, status de resposta HTTP, entre outros. No exemplo, o erro capturado pelo useRouteError é exibido na página de erro através de error.statusText (que pode ser a descrição do status HTTP) ou error.message (a mensagem de erro).
+
+Acesse novamente uma rota inexistente, tal como “nenhum”, e veja o resultado no navegador.
+
+O hook useRouteError é útil nas seguintes situações:
+
+- Erros de carregamento de dados: Quando uma rota falha ao buscar dados de uma API ou servidor.
+
+- Falhas de renderização: Quando um erro ocorre ao tentar renderizar um componente em uma rota.
+
+- Erros de mutação: Quando uma operação de mutação (como uma solicitação POST, PUT ou DELETE) falha.
+
+- Exceções inesperadas: Qualquer exceção ou erro não tratado dentro da árvore de componentes do React Router.

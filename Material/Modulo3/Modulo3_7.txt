@@ -1,0 +1,139 @@
+=== Rotas dinâmicas no React Router ===
+As rotas dinâmicas no React Router permitem que você crie URLs com parâmetros variáveis, que podem ser usados para exibir conteúdo específico com base na URL. Esses parâmetros são chamados de parâmetros de rota e são uma maneira poderosa de tornar a navegação em uma aplicação React mais dinâmica e flexível.
+
+No React Router, você pode definir parâmetros dinâmicos nas rotas utilizando : seguido do nome do parâmetro. Esses parâmetros são capturados pela URL e podem ser usados para carregar ou exibir informações específicas no componente.
+
+Por exemplo, em nossa loja virtual, você pode ter uma rota dinâmica para cada produto com base no seu ID ou nome, como /products/:productId. Isso permite que sua aplicação carregue e exiba informações específicas de um produto com base no parâmetro da URL:
+
+<Route path="/products/:productId" element={<Product />} />
+
+Aqui, :productId é o parâmetro dinâmico que pode variar. A URL /products/123 capturaria 123 como o productId.
+
+Logo, vamos alterar o arquivo Products.jsx para mostrar uma listagem de produtos:
+
+import { Link } from "react-router-dom";
+
+const productList = [
+    { id: 1, name: "Produto A" },
+    { id: 2, name: "Produto B" },
+    { id: 3, name: "Produto C" },
+];
+function ProductList() {
+    return (
+      <div>
+        <h1>Lista de Produtos</h1>
+        <ul
+          style={{
+            listStyleType: "none",
+            padding: 0,
+          }}>
+          
+           {productList.map((product) => (
+            <li key={product.id} style={{ margin: "10px 0" }}>
+              <Link
+                to={`/products/${product.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "#007BFF",
+                }}>
+                {product.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+}
+export default ProductList;
+
+Agora, precisamos definir uma página de detalhes de produtos que simule a obtenção de dados de um produto específico com base no ID passado na URL. Altere ProductDetails.jsx:
+
+import { useLoaderData } from 'react-router-dom';
+const products = [
+    { id: 1, name: 'Produto A', description: 'Descrição do Produto A', price: 100 },
+    { id: 2, name: 'Produto B', description: 'Descrição do Produto B', price: 200 },
+    { id: 3, name: 'Produto C', description: 'Descrição do Produto C', price: 300 },
+];
+export function loader({ params }) {
+    const product = products.find((p) => p.id === Number(params.id));
+    if (!product) {
+      throw new Error('Produto não encontrado!');
+    }
+    return product;
+}
+function ProductDetails() {
+    const product = useLoaderData();
+    return (
+      <div>
+        <h1>{product.name}</h1>
+        <p>{product.description}</p>
+        <p>Preço: R$ {product.price}</p>
+      </div>
+    );
+}
+export default ProductDetails;
+
+Observe que:
+
+- products: Uma lista de produtos fictícios com informações como id, name, description e price.
+- loader({ params }):
+Esta função é chamada automaticamente pelo React Router quando a rota correspondente é acessada.
+- params.id: Captura o parâmetro id da URL, procura um produto na lista com o ID correspondente e retorna esse produto.
+Se o produto não for encontrado, lança um erro com a mensagem "Produto não encontrado!".
+- ProductDetails:
+Um componente que exibe os detalhes do produto. Ele usa o hook useLoaderData() para acessar os dados do produto carregados pelo loader.
+Quando você define um loader para uma rota no React Router, esse loader é executado automaticamente quando a rota é acessada. Assim, quando o usuário acessa uma rota de produto com um ID (por exemplo, /products/1), o loader é executado, encontra o produto com o id: 1 na lista e passa esses dados para o componente ProductDetails.
+Renderiza o nome, a descrição e o preço do produto.
+
+OBS: O loader é executado antes do componente ser renderizado, o que garante que os dados estarão disponíveis quando o componente for exibido. Sugere-se utilizá-lo em operações como: busca de dados de uma API, busca de dados de um banco de dados, ou qualquer outra necessidade de lidar com lógica assíncrona (promises, fetches),
+
+Em seguida, vamos alterar o arquivo main.jsx para que tenha uma rota dinâmica utilizando parâmetros de URL para o componente ProductDetails.
+
+Em seguida, vamos alterar o arquivo main.jsx para que tenha uma rota dinâmica utilizando parâmetros de URL para o componente ProductDetails.
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Products from "./pages/Products.jsx";
+import ProductDetails,{loader as productLoader,} from "./pages/ProductDetails";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <App />,
+        children: [
+          {
+            path: "/",
+            element: <Home />,
+          },
+          {
+            path: "/about",
+            element: <About />,
+          },
+          {
+            path: "/products",
+            element: <Products />,
+          },
+          {
+            path: "/products/:id",
+            element: <ProductDetails />,
+            loader: productLoader, // Carrega os dados do produto
+          },
+        ],
+      },
+]);
+createRoot(document.getElementById("root")).render(
+      <StrictMode>
+        <RouterProvider router={router} />
+      </StrictMode>
+);
+
+Observe que:
+
+Rotas Dinâmicas:
+- path: "/products/:id": Esta é uma rota dinâmica que captura o valor :id diretamente da URL. Por exemplo, se o usuário acessar /products/123, o valor id será 123.
+- element: <ProductDetails />: O componente ProductDetails será renderizado para exibir informações específicas sobre o produto cujo ID foi capturado.
+- loader: productLoader: O loader é uma função que será executada antes de renderizar o componente. Ele pode buscar dados necessários para a exibição do produto com base no id da URL. Nesse caso, productLoader pode ser responsável por buscar os detalhes do produto em uma API ou banco de dados.

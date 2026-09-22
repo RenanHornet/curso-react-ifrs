@@ -1,0 +1,165 @@
+=== Configuração de um projeto de exemplo ===
+Para auxiliar na compreensão dos conceitos relacionados ao React Router, considere o escopo de desenvolvimento de uma aplicação web sobre venda de produtos online.
+
+=-=-= Configurações básicas do react router =-=-=
+Antes de começar a usar o React Router em seus projetos, você precisa instalar essa biblioteca no seu projeto React:
+
+npm install react-router-dom
+
+Ou, se estiver usando yarn:
+
+yarn add react-router-dom
+
+=-=-= Estrutura do projeto =-=-=
+Em seguida, considere que o nosso projeto contém a seguinte estrutura de diretórios e arquivos:
+
+src/
+    pages/
+        About.jsx
+        ErrorPage.jsx
+        ProductDetails.jsx
+        Products.jsx
+    App.jsx
+    index.css
+    main.jsx
+
+=-=-= Criação das páginas básicas do Projeto =-=-=
+Neste passo, vamos considerar a criação das páginas Home, About e Products de nosso projeto. neste contexto, considere o seguinte código para o arquivo Home.jsx
+
+function Home() {
+    return (
+        <div>
+          <h1>Home Page</h1>
+          <p>Bem-vindo à nossa loja online!</p>
+        </div>
+      );
+}
+export default Home;
+
+Em seguida, considere o seguinte código para o arquivo About.jsx:
+
+function About() {
+    return (
+        <div>
+          <h1>About Us</h1>
+          <p>Conheça mais sobre nossa loja e nossos valores.</p>
+        </div>
+      );
+}
+export default About;
+
+Finalmente, considere o seguinte código para o arquivo Products.jsx:
+
+function Products() {
+    return (
+        <div>
+          <h1>Lista de Produtos</h1>      
+          <p>Listagem de Produtos</p>
+        </div>
+      );
+}
+export default Products;
+
+=-=-= Definição do Layout Básico da aplicação =-=-= 
+Agora, vamos alterar o arquivo App.jsx para conter o layout básico de nossa aplicação, contendo o código sobre a navegação comum entre as páginas, além do espaço para atualizarmos o conteúdo de cada página acessada e o rodapé:
+
+function App() {
+    return (
+        <div>
+          <header>
+            <h1>Minha Loja Virtual</h1>
+            <nav>
+              <ul>
+                <li><a href="/home" alt="">Home</a></li>
+                <li><a href="/about" alt="">Sobre</a></li>
+                <li><a href="/products" alt="">Produtos</a></li>
+              </ul>
+            </nav>
+          </header>
+          <main>
+            <p>Conteúdo que virá de cada p>ágina.<p>
+          </main>
+          <footer>
+            <p>&copy; 2024 Minha Loja. Todos os direitos reservados.</p>
+          </footer>
+        </div>
+      );
+}
+export default App;
+
+Este código define um componente chamado App, que representa a estrutura básica de uma loja virtual. Ele importa um arquivo CSS (App.css) para estilização e retorna um layout composto por três seções principais: um cabeçalho (<header>), um conteúdo principal (<main>) e um rodapé (<footer>). No cabeçalho, há um título "Minha Loja Virtual" e uma barra de navegação com links para as páginas "Home", "Sobre" e "Produtos", utilizando a tag <a> para redirecionamento. O <main> contém um parágrafo com texto placeholder que será substituído pelo conteúdo específico de cada página. Por fim, o rodapé exibe uma mensagem de copyright para "Minha Loja", indicando o ano 2024.
+
+Antes de testar nossa aplicação, sugiro fazer uma pequena alteração estilo CSS de nossa aplicação. Desta forma, pensando em uma forma prática de realizar isso, vamos alterar o arquivo index.css com o seguinte código:
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: flex-start; /* Alinha o conteúdo no topo */
+    min-width: 320px;
+    min-height: 100vh; /* Garante que o body ocupe a altura da tela */
+    background-color: #f4f4f4; /* Cor de fundo opcional */
+    font-family: Arial, sans-serif;
+}
+  
+div {
+    max-width: 1400px; /* Largura máxima do conteúdo */
+    width: 100%; /* Usa 100% da largura disponível */
+    padding: 20px;
+    box-sizing: border-box; /* Inclui o padding na largura total */
+    background-color: #fff; /* Fundo branco para o conteúdo */
+    margin-top: 20px; /* Espaçamento opcional a partir do topo */
+}
+  
+/* Cabeçalho */
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+  
+  
+/* Navegação */
+nav ul {
+    list-style: none; /* Remove marcadores de lista */
+    padding: 0;
+    margin: 20px 0 0 0;
+    display: flex; /* Coloca os itens da lista em linha */
+    justify-content: center; /* Centraliza os itens de navegação */
+}
+nav ul li {
+    margin: 0 15px; /* Espaçamento entre os itens */
+}
+nav ul li a {
+    color: white;
+    text-decoration: none; /* Remove sublinhado dos links */
+    font-size: 1.2em;
+}
+nav ul li a:hover {
+    text-decoration: underline; /* Sublinha ao passar o mouse */
+}
+  
+/* Conteúdo principal */
+main {
+    padding: 20px;
+    text-align: center;
+}
+  
+/* Rodapé */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+  

@@ -1,0 +1,7 @@
+=== Introdução ao React Router ===
+Em sites tradicionais, o navegador solicita um documento de um servidor web, faz o download e avalia os arquivos de CSS e JavaScript, e renderiza o HTML enviado pelo servidor. Quando o usuário clica em um link, o processo começa tudo de novo para carregar uma nova página. Isso pode tornar o site mais lento, pois precisa carregar tudo do zero a cada navegação.
+
+O React Router é uma biblioteca que facilita a navegação em aplicações Single Page Applications (SPA). Em vez de recarregar a página ao navegar entre links, o React Router atualiza apenas o conteúdo relevante, melhorando a experiência do usuário (ELROM, 2021; REACT DOCS, 2024). Neste contexto, o React Router permite o roteamento no lado do cliente (client-side routing), realizando um comportamento diferente. Ao invés de solicitar uma nova página completa ao servidor, o React Router permite que a URL seja alterada no navegador e que a página atualizada seja renderizada no próprio navegador (usando JavaScript). Isso significa que a navegação entre "páginas" do site é instantânea, e o navegador só busca novos dados (via API, por exemplo) para preencher essa nova página, sem precisar recarregar tudo.
+
+Esse processo melhora a performance, pois não há a necessidade de baixar todos os arquivos (como CSS e JavaScript) a cada navegação, e permite a criação de transições mais dinâmicas e fluídas, como animações.
+
