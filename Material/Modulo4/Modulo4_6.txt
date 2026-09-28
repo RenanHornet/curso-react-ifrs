@@ -1,0 +1,10 @@
+=== Referências ===
+O material desenvolvido para este módulo baseou-se nas seguintes obras:
+
+- ELROM, E. React and Libraries: Your Complete Guide to the React Ecosystem. USA: APRESS, 2021.
+
+- MDN WEB DOCS. Getting started with React. Disponível em: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started. Acessado em 21 jun. 2024.
+
+- REACT DOCS. API de Referência. Disponível em https://pt-br.react.dev/. Acessado em 15 jun. 2024.
+
+- W3SCHOOLS. React Tutorial. Disponível em: https://www.w3schools.com/react. Acessado em 17 jun. 2024.

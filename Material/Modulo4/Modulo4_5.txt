@@ -1,0 +1,94 @@
+=== Persistência de dados no Local Storage ===
+A persistência de dados no Local Storage é uma técnica importante em desenvolvimento web que permite armazenar dados no navegador do usuário de forma que eles persistam mesmo após a atualização da página ou o fechamento do navegador. Isso é especialmente útil em consultas a APIs, pois pode melhorar a performance da aplicação e a experiência do usuário.
+
+=-=-= O que é Local Storage? =-=-=
+O Local Storage é uma parte da Web Storage API que fornece um armazenamento simples e fácil de usar em navegadores (REACT DOCS, 2024). Ele permite que você armazene pares de chave-valor em formato de string. Diferentemente do Session Storage, que mantém os dados apenas durante a sessão do navegador, os dados armazenados no Local Storage permanecem disponíveis até que sejam explicitamente removidos.
+
+Dentre as vantagens do Local Storage, podemos citar:
+- Persistência de Dados: Os dados armazenados não são perdidos ao fechar o navegador, permitindo que a aplicação mantenha informações relevantes entre as sessões.
+
+- Performance: Ao armazenar dados localmente, você pode reduzir a necessidade de consultas repetidas à API, melhorando o desempenho da aplicação e diminuindo a latência.
+
+- Simplicidade: O Local Storage é fácil de usar, com uma API simples para armazenar, recuperar e remover dados.
+
+=-=-= Por que usar o Local Storage em consultas a APIs? =-=-=
+Segue abaixo alguns motivos para utilizarmos o Local Storage em consultas a APIs:
+- Reduz Requisições à API: Armazenar os dados no Local Storage permite que você evite fazer requisições repetidas à API, utilizando dados já salvos, o que pode economizar tempo e recursos.
+
+- Melhora a Performance: Consultar dados diretamente do Local Storage é mais rápido do que fazer requisições HTTP.
+
+- Persistência de Dados: Os dados armazenados no Local Storage permanecem disponíveis mesmo quando o usuário fecha e reabre o navegador, diferentemente do estado do React, que é perdido ao recarregar a página.
+
+=-=-= COmo usar o Local Storage em consultas A APIs =-=-=
+O Local Storage é uma parte da Web Storage API que fornece um armazenamento simples e fácil de usar em navegadores. Ele permite que você armazene pares de chave-valor em formato de string. Diferentemente do Session Storage, que mantém os dados apenas durante a sessão do navegador, os dados armazenados no Local Storage permanecem disponíveis até que sejam explicitamente removidos.
+
+Veja um exemplo abaixo:
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+      const [usuarios, setUsuarios] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+    
+    
+      useEffect(() => {
+        const fetchUsuarios = async () => {
+          // Tenta obter os usuários do Local Storage
+          const localData = localStorage.getItem("usuarios");
+          if (localData) {
+            setUsuarios(JSON.parse(localData)); // Carrega dados do Local Storage
+            setLoading(false); // Define carregamento como falso
+            return; // Sai da função
+          }
+    
+    
+          try {
+            const response = await axios.get(
+              "https://jsonplaceholder.typicode.com/users"
+            );
+            setUsuarios(response.data);
+            localStorage.setItem("usuarios", JSON.stringify(response.data)); // Armazena dados no Local Storage
+          } catch (error) {
+            console.error("Erro ao carregar usuários:", error);
+            setError("Erro ao carregar usuários.");
+          } finally {
+            setLoading(false); // Atualiza o estado de carregamento para false
+          }
+        };
+    
+    
+        fetchUsuarios();
+      }, []);
+    
+    
+      if (loading) return <p>Carregando...</p>;
+      if (error) return <p>{error}</p>;
+    
+    
+      return (
+        <ul>
+          {usuarios.map((usuario) => (
+            <li key={usuario.id}>{usuario.name}</li>
+          ))}
+        </ul>
+      );
+}
+export default App;
+
+Observe neste código:
+
+- Verificação do Local Storage: Antes de fazer a chamada à API, o código verifica se os dados de usuários já estão armazenados no Local Storage. Se estiverem, os dados são carregados e exibidos diretamente.
+
+- Armazenamento no Local Storage: Após receber a resposta da API, os dados são armazenados no Local Storage usando localStorage.setItem(). Os dados são convertidos para string com JSON.stringify().
+
+- Gerenciamento de Estado: O estado do componente é atualizado para refletir os dados carregados, seja do Local Storage ou da API.
+
+Neste contexto, segue abaixo algumas considerações finais sobre o Local Storage:
+
+- Limitações do Local Storage: O Local Storage tem um limite de armazenamento (geralmente cerca de 5 MB) e só pode armazenar strings. Portanto, dados complexos precisam ser serializados para JSON.
+
+- Segurança: Evite armazenar informações sensíveis (como senhas) no Local Storage, pois os dados podem ser acessados por qualquer script na mesma origem.
+
+- Desempenho: Embora o Local Storage possa melhorar a performance, sempre considere a validade dos dados armazenados. Dados desatualizados podem levar a uma experiência negativa do usuário.

@@ -1,0 +1,87 @@
+=== Armazenamento e Renderização de dados dinâmicos ===
+No desenvolvimento de aplicações web com React, um dos aspectos mais importantes é lidar com dados dinâmicos vindos de APIs. Isso envolve obter dados de um servidor, armazená-los corretamente no estado da aplicação e renderizá-los de maneira eficiente e interativa para o usuário. Neste capítulo, abordaremos em detalhes como exibir dados obtidos de uma API em React e como tratar erros durante esse processo.
+
+=-=-= Exibição de dados obtidos de uma API =-=-=
+O React é uma biblioteca JavaScript que utiliza um conceito de estado para gerenciar e armazenar dados que mudam ao longo do tempo. O estado é crucial para lidar com dados dinâmicos, especialmente quando trabalhamos com APIs.
+
+Neste contexto, podemos citar os seguintes hooks para lidar com dados dinâmicos (ELROM, 2021):
+    - useState: utilizado para armazenar e gerenciar o estado local dentro de um componente.
+    - useEffect: utilizado para realizar efeitos colaterais, como a chamada a APIs, após a renderização inicial do componente.
+
+Quando buscamos dados de uma API em React, normalmente usamos bibliotecas como Axios ou a Fetch API. O uso do hook useEffect é essencial para garantir que as chamadas à API sejam feitas após a renderização inicial do componente.
+
+Veja abaixo um exemplo prático com Axios:
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+function App() {
+      const [usuarios, setUsuarios] = useState([]);
+      useEffect(() => {
+        const fetchUsuarios = async () => {
+          const response = await axios.get(
+            "https://jsonplaceholder.typicode.com/users"
+          );
+          setUsuarios(response.data);
+        };
+        fetchUsuarios();
+      }, []);
+      return (
+        <ul>
+          {usuarios.map((usuario) => (
+            <li key={usuario.id}>{usuario.name}</li>
+          ))}
+        </ul>
+      );
+}
+export default App;
+
+Observe neste código que:
+
+    - useState: Utilizado para armazenar os dados da API.
+    - useEffect: Executa a função de chamada à API apenas uma vez, logo após a renderização inicial, graças à dependência vazia ( [ ] ).
+
+=-=-= Tratamento de erros ao consumir APIs =-=-=
+O tratamento de erros é uma parte crucial ao trabalhar com dados dinâmicos e APIs em React. Mesmo que a API funcione corretamente, fatores externos, como problemas de rede ou resposta lenta do servidor, podem causar falhas. O objetivo do tratamento de erros é detectar esses problemas e informar o usuário de maneira clara e amigável.
+
+Veja abaixo um exemplo de tratamento de erros com Axios:
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+function App() {
+      const [usuarios, setUsuarios] = useState([]);
+      const [error, setError] = useState(null); // Estado para armazenar erros
+      useEffect(() => {
+        const fetchUsuarios = async () => {
+          try {
+            const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+            setUsuarios(response.data);
+          } catch (error) {
+            console.error("Erro ao carregar usuários:", error); // Exibe no console
+            setError("Erro ao carregar usuários."); // Define uma mensagem de erro 
+          }
+        };
+        fetchUsuarios();
+      }, []);
+      return (
+        <div>
+          {error && <p>{error}</p>} {/* Exibe a mensagem de erro se existir */}
+          <ul>
+            {usuarios.map((usuario) => (
+              <li key={usuario.id}>{usuario.name}</li>
+            ))}
+          </ul>
+        </div>
+      );
+}
+
+export default App;
+
+Observe neste código:
+    - Estado de Erro: Temos um estado error para armazenar mensagens de erro.
+
+    - Bloco try/catch: O bloco try/catch é utilizado para capturar qualquer erro que ocorra durante a requisição. Se houver um erro, a mensagem "Erro ao carregar usuários." é definida no estado error. Temos a exibição do erro no console, de maneira que o erro completo é exibido quando ocorre uma falha na requisição.
+
+    - Renderização da Mensagem de Erro: Verificamos se existe uma mensagem de erro (error) e, se existir, exibe essa mensagem na interface do usuário.
+
+
+

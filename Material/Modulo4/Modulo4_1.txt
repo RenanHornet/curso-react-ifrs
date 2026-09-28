@@ -1,0 +1,11 @@
+=== Requisições HTTP com Fetch e Axios ===
+
+No desenvolvimento de aplcioações modernas, especialmente em frameworks como React, a comunicação com APIs é essencial para criar experiências dinâmicas e interativas. APIs permitem que aplicações acessem e manipulem dados armazenados em servidores remotos, possibilitando funcionalidades como exibição de dados atualizadaos, envio de informações e interação em tempo real (ELROM, 2021).
+
+Duas ferramentas amplamente utilizadas para realizar requisições HTTP são a Fetch API e a biblioteca Axios. Ambas desempenham um papel fundamental ao permitiri que desenvolvedores enviem e recebam dados de APIs, utilizando métodos HTTP como GET, POST, PUT e DELETE (W3SCHOOLS, 2024).
+
+- Fetch API: Uma solução nativa baseada em JavaScript, simples e direta, que utiliza Promises para gerenciar operações assíncronas. Com uma sintaxe enxuta, Fetch é ideal para quem busca flexibilidade e controle no tratamento de requisições.
+
+- Axios: Uma biblioteca de terceiros que torna as requisições HTTP mais simples e poderosas. Com recursos como transformação automática de dados e suporte avançado a erros, Axios é uma escolha popular para desenvolvedores que buscam maior praticidade e robustez.
+
+Este módulo explorará os conceitos básicos de requisições HTTP, comparando Fetch e Axios, apresentando suas vantagens, limitações e exemplos práticos de uso.

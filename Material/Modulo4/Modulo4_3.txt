@@ -1,0 +1,51 @@
+=== Indicador de carregamento (loading) ===
+Um indicador de carregamento (Loading) é um componente visual que informa aos usuários que uma operação assíncrona, como uma consulta a uma API, está em andamento. Em aplicações React, isso é especialmente importante ao buscar dados de APIs, pois pode levar algum tempo para que os dados sejam retornados. Um bom feedback ao usuário melhora a experiência e evita que ele fique confuso ou pense que a aplicação não está funcionando.
+
+Veja no quadro abaixo um exemplo de uso de indicador de carregamento:
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+function App() {
+      const [usuarios, setUsuarios] = useState([]);
+      const [loading, setLoading] = useState(true); // Estado de carregamento
+      const [error, setError] = useState(null);
+      useEffect(() => {
+        const fetchUsuarios = async () => {
+          try {
+            const response = await axios.get(
+              "https://jsonplaceholder.typicode.com/users"
+            );
+            setUsuarios(response.data);
+          } catch (error) {
+            console.error("Erro ao carregar usuários:", error);
+            setError("Erro ao carregar usuários.");
+          } finally {
+            setLoading(false); // Atualiza o estado de carregamento para false
+          }
+        };
+        fetchUsuarios();
+      }, []);
+      // Renderiza o indicador de carregamento
+      if (loading) return <p>Carregando...</p>;
+      if (error) return <p>{error}</p>; // Exibe a mensagem de erro se houver
+      
+    return (
+        <ul>
+          {usuarios.map((usuario) => (
+            <li key={usuario.id}>{usuario.name}</li>
+          ))}
+        </ul>
+      );
+}
+export default App;
+
+Observe neste código:
+    - Estado loading: Um estado loading é criado para controlar se os dados estão sendo carregados.
+
+    - Atualização do Estado: O estado loading é definido como true antes da chamada da API. No bloco finally, independentemente do sucesso ou falha da requisição, o estado é atualizado para false, indicando que o carregamento foi concluído.
+
+    - Renderização Condicional:
+        - Enquanto loading for true, a mensagem "Carregando..." é exibida.
+        - Se ocorrer um erro, a mensagem de erro é exibida.
+        - Se os dados forem carregados com sucesso, são renderizados na lista.
+
